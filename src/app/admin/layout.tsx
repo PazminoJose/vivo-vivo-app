@@ -36,7 +36,7 @@ export default function AdminLayout({ children }: { children: ReactNode }) {
       <AppShell.Navbar p="md" className=" bg-gray-900">
         <Group>
           <Burger opened={opened} onClick={toggle} hiddenFrom="md" size="sm" color="white" />
-          <img src="/vivo-vivo.svg" className="sm:mx-auto sm:w-28" alt="vivo vivo" height={100} width={100} />
+          <img src="/vivo-vivo.svg" className="sm:mx-auto sm:w-28" alt="vivo vivo logo" />
         </Group>
         <NavLinks onPathChange={handleLinkChange} />
       </AppShell.Navbar>
