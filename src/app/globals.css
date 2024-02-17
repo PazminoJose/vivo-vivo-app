@@ -4,3 +4,8 @@
 
 @tailwind components;
 @tailwind utilities;
+
+html,
+body {
+  height: 100%;
+}
