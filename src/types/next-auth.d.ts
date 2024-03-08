@@ -1,20 +1,20 @@
 import "next-auth";
 
-export type Roles = {
-  _id: string;
-  rolName: AppRoles;
+type SessionRole = {
+  roleID: number;
+  roleName: string;
 };
 
 declare module "next-auth" {
   interface Session {
     user: {
-      idUser: string;
-      idPerson: string;
+      userID: number;
+      personID: number;
       names: string;
       email: string;
       phone: string;
       avatar: string;
-      roles: Roles[];
+      roles: SessionRole[];
     };
     token: string;
   }
@@ -25,13 +25,13 @@ import "next-auth/jwt";
 declare module "next-auth/jwt" {
   interface JWT {
     user: {
-      idUser: string;
-      idPerson: string;
+      userID: number;
+      personID: number;
       names: string;
       email: string;
       phone: string;
       avatar: string;
-      roles: Roles[];
+      roles: SessionRole[];
     };
     token: string;
   }
