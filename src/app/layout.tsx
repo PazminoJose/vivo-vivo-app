@@ -1,6 +1,8 @@
 import Providers from "@/providers/providers";
 import { ColorSchemeScript } from "@mantine/core";
 import "@mantine/core/styles.css";
+import "@mantine/dates/styles.css";
+import "mantine-react-table/styles.css";
 import type { Metadata } from "next";
 import { Toaster } from "sonner";
 import "./globals.css";
