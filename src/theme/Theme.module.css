@@ -1,0 +1,18 @@
+@tailwind components;
+@layer components {
+  .button {
+    &[data-variant="primary"] {
+      @apply bg-primary-600 transition-colors duration-300 hover:bg-primary-700;
+    }
+  }
+  .actionIcon {
+    &[data-variant="primary"] {
+      @apply h-9 w-9 transition-colors duration-300;
+    }
+  }
+  .hasError {
+    &[data-error="true"] {
+      @apply border-red-400;
+    }
+  }
+}
