@@ -40,7 +40,7 @@ export default function FormLogin() {
     if (res?.error) {
       toast.error(res.error);
     } else {
-      router.push("/admin/heat-map");
+      router.push("/admin/users");
       toast.success("Bienvenido");
     }
     setLoading(false);
@@ -50,20 +50,18 @@ export default function FormLogin() {
     <Card className="w-full rounded-xl p-5  shadow-md shadow-slate-400 sm:shadow-none" withBorder>
       <form className="flex flex-col gap-4" onSubmit={form.onSubmit(handleSubmit)}>
         <TextInput
-          classNames={{ input: "border-gray-900 placeholder:text-gray-500" }}
           withAsterisk
           label="Correo"
           placeholder="ejemplo@ejemplo.com"
           {...form.getInputProps("email")}
         />
         <PasswordInput
-          classNames={{ input: "border-gray-900 placeholder:text-gray-500" }}
           withAsterisk
           label="Contraseña"
           placeholder="*********"
           {...form.getInputProps("password")}
         />
-        <Button className="bg-gray-900 p-2 uppercase" type="submit" loading={loading} fullWidth>
+        <Button className="uppercase" type="submit" loading={loading} fullWidth>
           Ingresar
         </Button>
       </form>
