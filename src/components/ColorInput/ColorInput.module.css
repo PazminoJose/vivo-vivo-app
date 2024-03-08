@@ -1,0 +1,16 @@
+.color-input {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background-color: transparent;
+  width: 45px;
+  height: 45px;
+  border: none;
+  cursor: pointer;
+}
+.color-input::-webkit-color-swatch {
+  border-radius: 0.5rem;
+}
+.color-input::-moz-color-swatch {
+  border-radius: 0.5rem;
+}
