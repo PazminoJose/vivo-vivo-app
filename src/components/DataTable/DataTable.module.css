@@ -1,0 +1,11 @@
+@tailwind components;
+@layer components {
+  .root {
+    --mrt-base-background-color: theme("colors.primary.300");
+    --mrt-row-hover-background-color: theme("colors.primary.200");
+    --mrt-striped-row-background-color: theme("colors.primary.200");
+  }
+  .filterInput {
+    --mrt-filter-input-background-color: theme("colors.primary.600");
+  }
+}
