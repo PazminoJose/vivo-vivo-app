@@ -1,9 +1,14 @@
 import dynamic from "next/dynamic";
+import GoogleMapApiProvider from "../providers/GoogleMapApiProvider";
 
-const DynamicHeatMap = dynamic(() => import("./components/heat-map"), {
+const DynamicHeatMap = dynamic(() => import("./components/HeatMap"), {
   ssr: false
 });
 
 export default function HeatMapPage() {
-  return <DynamicHeatMap />;
+  return (
+    <GoogleMapApiProvider>
+      <DynamicHeatMap />
+    </GoogleMapApiProvider>
+  );
 }
