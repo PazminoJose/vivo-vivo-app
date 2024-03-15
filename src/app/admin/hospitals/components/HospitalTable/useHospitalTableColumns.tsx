@@ -18,10 +18,6 @@ export default function useHospitalTableColumns() {
         header: "Teléfono"
       },
       {
-        accessorKey: "hospitalAddress",
-        header: "Dirección"
-      },
-      {
         accessorKey: "floorsNumber",
         header: "Número de pisos"
       }
