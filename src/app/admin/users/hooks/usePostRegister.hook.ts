@@ -1,13 +1,10 @@
+import { MutationProps } from "@/types/mutation-props";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
 import { postRegisterService } from "../services/postRegister.service";
 import { USERS_QUERY_KEY } from "./useGetUsers.hook";
 
-interface UsePostRegisterProps {
-  onSuccess?: () => void | Promise<void>;
-}
-
-export const usePostRegister = ({ onSuccess }: UsePostRegisterProps) => {
+export const usePostRegister = ({ onSuccess }: MutationProps) => {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: postRegisterService,
