@@ -1,7 +1,7 @@
 "use client";
 import NextNavLink from "@/components/NextNavLink";
 import { cn } from "@/lib/utils";
-import { IconBuildingHospital, IconHome, IconMap2, IconMapRoute } from "@tabler/icons-react";
+import { IconHome, IconHospital, IconMap2, IconMapRoute } from "@tabler/icons-react";
 import { usePathname } from "next/navigation";
 import { useEffect } from "react";
 
@@ -9,7 +9,7 @@ const links = [
   // { label: "Inicio", href: "/admin/home", icon: IconHome },
   { label: "Usuarios", href: "/admin/users", icon: IconHome },
   { label: "Zonas", href: "/admin/zones", icon: IconMapRoute },
-  { label: "Hospitales", href: "/admin/hospitals", icon: IconBuildingHospital },
+  { label: "Hospitales", href: "/admin/hospitals", icon: IconHospital },
   // { label: "Alarmas", href: "/admin/alarms", icon: IconMapPin },
   { label: "Mapa de calor", href: "/admin/heat-map", icon: IconMap2 }
   // { label: "Reportes", href: "/admin/dashboard", icon: IconChartHistogram }
