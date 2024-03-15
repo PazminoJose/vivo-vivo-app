@@ -117,7 +117,7 @@ export default function FormRegister({ onSubmitSuccess, initialValues }: FormReg
                 if (validate.hasErrors) setCurrentErrorStep(active);
               }}
             >
-              Submit
+              Guardar
             </Button>
           )}
         </Group>
