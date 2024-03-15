@@ -5,7 +5,7 @@ import { Button, Card, Modal } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import { IconEdit, IconMapPinUp } from "@tabler/icons-react";
 import { useMap } from "@vis.gl/react-google-maps";
-import AssignPoliceTable from "./AssignPoliceTable";
+import AssignPoliceTable from "./AssingPoliceTable/AssignPoliceTable";
 
 interface CardZoneProps {
   zone: Zone;
