@@ -8,14 +8,25 @@ import { SessionProvider } from "next-auth/react";
 import { ReactNode, useState } from "react";
 
 export default function Providers({ children }: { children: ReactNode }) {
-  const [queryClient] = useState(() => new QueryClient());
+  const [queryClient] = useState(
+    () =>
+      new QueryClient({
+        defaultOptions: {
+          queries: {
+            refetchOnWindowFocus: false,
+            refetchOnMount: false,
+            gcTime: 1000 * 3600 // 1 hour cache invalidation
+          }
+        }
+      })
+  );
 
   return (
     <SessionProvider>
       <QueryClientProvider client={queryClient}>
         <ReactQueryDevtools initialIsOpen={false} />
         <MantineProvider theme={theme}>
-          <ModalsProvider>{children}</ModalsProvider>
+          <ModalsProvider labels={{ cancel: "Cancelar", confirm: "Confirmar" }}>{children}</ModalsProvider>
         </MantineProvider>
       </QueryClientProvider>
     </SessionProvider>
