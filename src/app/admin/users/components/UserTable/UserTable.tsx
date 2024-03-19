@@ -15,7 +15,7 @@ export default function UsersTable() {
   const [opened, { open, close }] = useDisclosure();
   const [selectedUser, setSelectedUser] = useState<RegisterSchema | null>(null);
 
-  const { data: users } = useGetUsers();
+  const { data: users, isLoading } = useGetUsers();
   const columns = useUserTableColumns();
 
   const handleEdit = async (user: User) => {
@@ -32,6 +32,7 @@ export default function UsersTable() {
   return (
     <div className="flex flex-col">
       <DataTable
+        state={{ isLoading }}
         enableColumnPinning
         enableRowActions
         renderRowActionMenuItems={({ row }) => (
