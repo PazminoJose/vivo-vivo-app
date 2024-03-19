@@ -63,23 +63,6 @@ export default function ZonesControl() {
     setIsEditingOrCreating(true);
   };
 
-  // useEffect(() => {
-  //   if (data) {
-  //     handleZoneViewModeChange(zoneViewMode);
-  //   }
-  // }, [data]);
-
-  // useEffect(() => {
-  //   if (selectedZone) {
-  //     setSelectedZone({ ...selectedZone, polygon: debouncedZonePath });
-  //     setZones((prev) =>
-  //       prev.map((zone) =>
-  //         zone.zoneID === selectedZone.zoneID ? { ...zone, polygon: debouncedZonePath } : zone
-  //       )
-  //     );
-  //   }
-  // }, [debouncedZonePath]);
-
   useEffect(() => {
     if (data) handleZoneViewModeChange(zoneViewMode);
   }, [data]);
@@ -133,7 +116,7 @@ export default function ZonesControl() {
               <Radio value="inactive" label="Inactivas" />
             </div>
           </Radio.Group>
-          <div className="mt-2 flex flex-col gap-4 overflow-y-scroll rounded-b-lg ">
+          <div className="mt-2 block overflow-y-scroll rounded-b-lg ">
             {zones && zones.length > 0 ? (
               zones.map((zone) => <CardZone key={zone.zoneID} zone={zone} onEdit={handleOnEdit} />)
             ) : (

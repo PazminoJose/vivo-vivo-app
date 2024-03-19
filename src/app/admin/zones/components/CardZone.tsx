@@ -27,9 +27,7 @@ export default function CardZone({ zone, onEdit }: CardZoneProps) {
   };
 
   return (
-    <Card
-      className={cn("min-h-32 border border-primary-400 p-2", isDisabled ? "bg-primary-300" : "bg-white")}
-    >
+    <Card className={cn("mt-4 border border-primary-400 p-2", isDisabled ? "bg-primary-300" : "bg-white")}>
       <h2
         className={cn("text-center text-lg font-bold")}
         style={{ color: !isDisabled ? zone.zoneColor : "gray" }}
