@@ -22,7 +22,7 @@ export default function AssignPoliceTable({ zoneID }: UserZoneTableProps) {
   const [autocompleteValue, setAutocompleteValue] = useState<string>("");
 
   // Query
-  const { data: usersZone } = useGetUsersZoneByZoneID(zoneID);
+  const { data: usersZone, isLoading } = useGetUsersZoneByZoneID(zoneID);
   const columns = useAssignPoliceTableColumns();
 
   const { data: policeUserRole } = useGetUserRoleDataByPoliceRole();
@@ -78,6 +78,7 @@ export default function AssignPoliceTable({ zoneID }: UserZoneTableProps) {
 
   return (
     <DataTable
+      state={{ isLoading }}
       enableColumnPinning
       renderTopToolbarCustomActions={() => (
         <div className="flex gap-2">
