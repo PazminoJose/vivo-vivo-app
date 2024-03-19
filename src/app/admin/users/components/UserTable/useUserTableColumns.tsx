@@ -10,7 +10,8 @@ export default function useUserTableColumns() {
     () => [
       {
         id: "fullName",
-        accessorFn: (user) => `${user.person.firstName} ${user.person.middleName} ${user.person.lastNames}`,
+        accessorFn: (user) =>
+          `${user.person?.firstName} ${user.person?.middleName} ${user.person?.lastNames}`,
         header: "Nombre",
         Cell: ({ renderedCellValue, row }) => (
           <Box
@@ -27,7 +28,7 @@ export default function useUserTableColumns() {
       },
       {
         id: "role",
-        accessorFn: (user) => user.userRole.map((r) => r.role.roleName).join(", "),
+        accessorFn: (user) => user.userRole?.map((r) => r.role.roleName).join(", "),
         header: "Role",
         filterVariant: "select",
 
@@ -35,7 +36,7 @@ export default function useUserTableColumns() {
           data: [
             { label: "Admin", value: "ADMIN" },
             { label: "User", value: "USER" },
-            { label: "Policia", value: "POLICE" }
+            { label: "Policía", value: "POLICE" }
           ]
         },
         filterFn: (row, id, filterValue) => {
@@ -77,7 +78,7 @@ export default function useUserTableColumns() {
       },
       {
         id: "age",
-        accessorFn: (user) => dayjs().diff(user.person.personInfo.birthDate, "year").toString(),
+        accessorFn: (user) => dayjs().diff(user.person?.personInfo.birthDate, "year").toString(),
         header: "Edad"
       }
     ],
