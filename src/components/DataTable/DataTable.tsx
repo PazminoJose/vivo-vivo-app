@@ -2,17 +2,22 @@ import { IconArrowsSort, IconSortAscending, IconSortDescending } from "@tabler/i
 import {
   MRT_Icons,
   MRT_RowData,
+  MRT_TableInstance,
   MRT_TableOptions,
   MantineReactTable,
   useMantineReactTable
 } from "mantine-react-table";
 // import { MRT_Localization_ES } from 'mantine-react-table/locales/es';
+import { useEffect } from "react";
 import classes from "./DataTable.module.css";
 import { MRT_Localization_ES } from "./localization";
 
-interface DataTableProps<T extends MRT_RowData> extends MRT_TableOptions<T> {}
+interface DataTableProps<T extends MRT_RowData> extends MRT_TableOptions<T> {
+  tableRef?: React.MutableRefObject<MRT_TableInstance<T> | null>;
+}
 
 export default function DataTable<T extends MRT_RowData>(props: DataTableProps<T>) {
+  const { tableRef, ...tableProps } = props;
   const icons: Partial<MRT_Icons> = {
     IconArrowsSort: () => <IconArrowsSort className="text-black hover:text-black" />,
     IconSortAscending: () => <IconSortAscending className="text-black hover:text-black" />,
@@ -36,8 +41,14 @@ export default function DataTable<T extends MRT_RowData>(props: DataTableProps<T
     localization: MRT_Localization_ES,
     mantineBottomToolbarProps: { className: "text-black" },
     mantineFilterSelectProps: { classNames: { input: "border-none" } },
-    ...props
+    ...tableProps
   });
+
+  useEffect(() => {
+    if (tableRef) {
+      tableRef.current = table;
+    }
+  }, [table, tableRef]);
 
   return <MantineReactTable table={table} />;
 }
