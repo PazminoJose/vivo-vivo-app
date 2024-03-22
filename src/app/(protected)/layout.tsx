@@ -1,10 +1,10 @@
 import { ReactNode } from "react";
 import AppLayout from "./components/AppLayout";
 
-interface AdminLayoutProps {
+interface ProtectedLayoutProps {
   children: ReactNode;
 }
 
-export default function AdminLayout({ children }: AdminLayoutProps) {
+export default function ProtectedLayout({ children }: ProtectedLayoutProps) {
   return <AppLayout>{children}</AppLayout>;
 }

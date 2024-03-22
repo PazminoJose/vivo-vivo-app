@@ -23,6 +23,8 @@ export default function AssignPoliceTable({ zoneID }: UserZoneTableProps) {
 
   // Query
   const { data: usersZone, isLoading } = useGetUsersZoneByZoneID(zoneID);
+  console.log(usersZone);
+
   const columns = useAssignPoliceTableColumns();
 
   const { data: policeUserRole } = useGetUserRoleDataByPoliceRole();
@@ -79,6 +81,7 @@ export default function AssignPoliceTable({ zoneID }: UserZoneTableProps) {
   return (
     <DataTable
       state={{ isLoading }}
+      mantineTableContainerProps={{ className: "max-h-[400px]" }}
       enableColumnPinning
       renderTopToolbarCustomActions={() => (
         <div className="flex gap-2">
