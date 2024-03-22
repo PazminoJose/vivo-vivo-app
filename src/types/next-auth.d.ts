@@ -1,8 +1,9 @@
+import { APP_ROLES } from "@/constants/roles";
 import "next-auth";
 
 type SessionRole = {
   roleID: number;
-  roleName: string;
+  roleName: APP_ROLES;
 };
 
 declare module "next-auth" {
