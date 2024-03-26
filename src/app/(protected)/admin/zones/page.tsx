@@ -7,7 +7,13 @@ const DynamicMap = dynamic(() => import("../components/Map"), {
   ssr: false
 });
 export default function ZonesPage() {
-  const defaultCenter: google.maps.LatLngLiteral = useMemo(() => ({ lat: -1.253351, lng: -78.623011 }), []);
+  const defaultCenter: google.maps.LatLngLiteral = useMemo(
+    () => ({
+      lat: -1.253351,
+      lng: -78.623011
+    }),
+    []
+  );
 
   return (
     <GoogleMapApiProvider>
