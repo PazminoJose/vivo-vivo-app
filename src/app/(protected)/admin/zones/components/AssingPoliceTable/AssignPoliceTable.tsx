@@ -23,7 +23,6 @@ export default function AssignPoliceTable({ zoneID }: UserZoneTableProps) {
 
   // Query
   const { data: usersZone, isLoading } = useGetUsersZoneByZoneID(zoneID);
-  console.log(usersZone);
 
   const columns = useAssignPoliceTableColumns();
 
