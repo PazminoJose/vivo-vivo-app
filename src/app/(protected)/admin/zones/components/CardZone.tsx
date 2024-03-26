@@ -3,7 +3,7 @@ import { cn } from "@/lib/utils";
 import { Zone } from "@/models/zone.model";
 import { Button, Card, Modal } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
-import { IconEdit, IconMapPinUp } from "@tabler/icons-react";
+import { IconEdit, IconLocation } from "@tabler/icons-react";
 import { useMap } from "@vis.gl/react-google-maps";
 import AssignPoliceTable from "./AssingPoliceTable/AssignPoliceTable";
 
@@ -27,7 +27,9 @@ export default function CardZone({ zone, onEdit }: CardZoneProps) {
   };
 
   return (
-    <Card className={cn("mt-4 border border-primary-400 p-2", isDisabled ? "bg-primary-300" : "bg-white")}>
+    <Card
+      className={cn("mt-4 border border-primary-400 p-2", isDisabled ? "bg-primary-300" : "bg-white")}
+    >
       <h2
         className={cn("text-center text-lg font-bold")}
         style={{ color: !isDisabled ? zone.zoneColor : "gray" }}
@@ -41,7 +43,7 @@ export default function CardZone({ zone, onEdit }: CardZoneProps) {
         <Button disabled={isDisabled} leftSection={<IconEdit />} onClick={open}>
           Asignar Policías
         </Button>
-        <Button leftSection={<IconMapPinUp />} className="w-full" onClick={handleMoveCamera}>
+        <Button leftSection={<IconLocation />} className="w-full" onClick={handleMoveCamera}>
           Ver en el mapa
         </Button>
       </div>
