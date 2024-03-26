@@ -3,9 +3,8 @@ import ConfigMenu from "@/components/ConfigMenu";
 import { AppShell, Burger, Group, Text } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import { useSession } from "next-auth/react";
-import { ReactNode, useMemo, useState } from "react";
-import NavLinks, { Link } from "./NavLinks/NavLinks";
-import { LINKS } from "./NavLinks/links";
+import { ReactNode, useState } from "react";
+import NavLinks from "./NavLinks/NavLinks";
 
 interface AppLayoutProps {
   children: ReactNode;
@@ -14,14 +13,6 @@ interface AppLayoutProps {
 export default function AppLayout({ children }: AppLayoutProps) {
   const { data: session } = useSession();
   const [opened, { toggle }] = useDisclosure();
-
-  const links = useMemo<Link[]>(() => {
-    if (session?.user) {
-      const links = LINKS[session.user.roles[0].roleName];
-      return links;
-    }
-    return [];
-  }, [session?.user.roles]);
 
   const [title, setTitle] = useState("");
   const handleLinkChange = (title: string) => {
@@ -53,7 +44,7 @@ export default function AppLayout({ children }: AppLayoutProps) {
           <Burger opened={opened} onClick={toggle} hiddenFrom="md" size="sm" color="white" />
           <img src="/vivo-vivo.svg" className="sm:mx-auto sm:w-28" alt="vivo vivo logo" />
         </Group>
-        <NavLinks onPathChange={handleLinkChange} links={links} />
+        <NavLinks onPathChange={handleLinkChange} />
       </AppShell.Navbar>
       <AppShell.Main className="flex bg-primary-900">
         <div className="w-full">{children}</div>

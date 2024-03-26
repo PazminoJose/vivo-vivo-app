@@ -1,8 +1,10 @@
 "use client";
 import NextNavLink from "@/components/NextNavLink";
 import { cn } from "@/lib/utils";
+import { useSession } from "next-auth/react";
 import { usePathname } from "next/navigation";
 import { useEffect } from "react";
+import { paths } from "./paths";
 
 export type Link = {
   label: string;
@@ -11,19 +13,19 @@ export type Link = {
 };
 
 interface NavLinksProps {
-  links: Link[];
   onPathChange: (label: string) => void;
 }
 
-export default function NavLinks({ onPathChange, links }: NavLinksProps) {
+export default function NavLinks({ onPathChange }: NavLinksProps) {
+  const { data } = useSession();
   const pathname = usePathname();
   useEffect(() => {
-    const link = links.find((link) => link.href === pathname);
+    const link = paths.find((path) => path.href === pathname);
     onPathChange(link?.label || "");
   }, [pathname, onPathChange]);
   return (
     <>
-      {links.map((link) => {
+      {/* {links.map((link) => {
         const LinkIcon = link.icon;
         return (
           <NextNavLink
@@ -37,6 +39,24 @@ export default function NavLinks({ onPathChange, links }: NavLinksProps) {
             )}
           />
         );
+      })} */}
+      {paths.map((path) => {
+        const LinkIcon = path.icon;
+        const userRoles = data?.user?.roles.map((role) => role.roleName);
+        if (userRoles && path.roles.some((role) => userRoles.includes(role))) {
+          return (
+            <NextNavLink
+              key={path.label}
+              label={path.label}
+              href={path.href}
+              leftSection={<LinkIcon />}
+              className={cn(
+                " mt-2 rounded-lg hover:bg-primary-600",
+                pathname === path.href && "bg-primary-600 font-bold"
+              )}
+            />
+          );
+        }
       })}
     </>
   );
