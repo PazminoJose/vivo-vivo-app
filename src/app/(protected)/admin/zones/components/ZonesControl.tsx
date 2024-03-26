@@ -7,7 +7,7 @@ import { useQuery } from "@tanstack/react-query";
 import { ControlPosition, MapControl } from "@vis.gl/react-google-maps";
 import { useEffect, useState } from "react";
 import { getZoneService } from "../services/getZones.service";
-import { useZoneControlStore } from "../store/ZoneControl.store";
+import { useZoneControlStore } from "../store/zoneControl.store";
 import CardZone from "./CardZone";
 import { Polygon } from "./Polygon";
 
@@ -46,7 +46,9 @@ export default function ZonesControl() {
     if (mode === "all") {
       setZones(data ?? []);
     } else {
-      const filteredZones = data?.filter((zone) => (mode === "active" ? zone.state === 1 : zone.state === 0));
+      const filteredZones = data?.filter((zone) =>
+        mode === "active" ? zone.state === 1 : zone.state === 0
+      );
       setZones(filteredZones ?? []);
     }
     if (mode != zoneViewMode) setZoneViewMode(mode as ViewZoneMode);
@@ -80,7 +82,8 @@ export default function ZonesControl() {
       {zones &&
         zones?.length > 0 &&
         zones.map((zone) => {
-          const isEditingOrCreatingCurrentZone = isEditingOrCreating && zone.zoneID === selectedZone?.zoneID;
+          const isEditingOrCreatingCurrentZone =
+            isEditingOrCreating && zone.zoneID === selectedZone?.zoneID;
           const isActive = zone.state === 1;
           const path = zone.polygon.map((p) => {
             return new google.maps.LatLng(p[0], p[1]);
@@ -89,7 +92,9 @@ export default function ZonesControl() {
             <Polygon
               editable={isEditingOrCreatingCurrentZone}
               draggable={isEditingOrCreatingCurrentZone}
-              fillColor={isActive ? (isEditingOrCreatingCurrentZone ? currentColor : zone.zoneColor) : "grey"}
+              fillColor={
+                isActive ? (isEditingOrCreatingCurrentZone ? currentColor : zone.zoneColor) : "grey"
+              }
               strokeColor={
                 isActive ? (isEditingOrCreatingCurrentZone ? currentColor : zone.zoneColor) : "grey"
               }

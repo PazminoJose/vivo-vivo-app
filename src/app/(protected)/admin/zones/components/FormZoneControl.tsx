@@ -13,7 +13,7 @@ import { z } from "zod";
 import { useDrawingManager } from "../hooks/useDrawingManager";
 import { postZoneService } from "../services/postZone.service";
 import { putZoneService } from "../services/putZones.service";
-import { useZoneControlStore } from "../store/ZoneControl.store";
+import { useZoneControlStore } from "../store/zoneControl.store";
 
 const zoneSchema = z.object({
   zoneID: z.number().optional(),
@@ -201,7 +201,11 @@ export default function FormZoneControl() {
             </ActionIcon>
           </form>
         ) : (
-          <Button className="mt-1" leftSection={<IconMapPlus />} onClick={() => setIsEditingOrCreating(true)}>
+          <Button
+            className="mt-1"
+            leftSection={<IconMapPlus />}
+            onClick={() => setIsEditingOrCreating(true)}
+          >
             Agregar Zona
           </Button>
         )}
