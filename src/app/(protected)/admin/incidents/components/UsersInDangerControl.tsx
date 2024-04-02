@@ -25,7 +25,7 @@ export default function UsersInDangerControl() {
         <h2 className="text-center text-xl font-bold">Ciudadanos en peligro</h2>
         <div className="mt-2 block overflow-y-scroll rounded-b-lg ">
           {usersInDanger && usersInDanger.length > 0 ? (
-            usersInDanger.map((user) => <UserInDangerCard key={user.userID} user={user} />)
+            usersInDanger.map((user) => <UserInDangerCard key={user.userID} userInDanger={user} />)
           ) : (
             <div className="text-center font-bold">No hay reportes de incidentes</div>
           )}

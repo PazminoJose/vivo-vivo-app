@@ -8,6 +8,9 @@ import { useSearchParams } from "next/navigation";
 import { useEffect, useMemo } from "react";
 import { io } from "socket.io-client";
 import GoogleMapApiProvider from "../../providers/GoogleMapApiProvider";
+import { Polygon } from "../../zones/components/Polygon";
+import { useGetZones } from "../../zones/hooks/useGetZones.hook";
+import { SOCKET_SUSCRIBE_EVENTS } from "../events/socket.event";
 import PoliceMarkers from "./../components/PoliceMarkers";
 import UserInDangerMarkers from "./../components/UserInDangerMarkers";
 import UsersInDangerControl from "./../components/UsersInDangerControl";
@@ -25,6 +28,7 @@ export default function IncidentsMap() {
   const setSelectedUserInDanger = useIncidentsStore((store) => store.setSelectedUserInDanger);
 
   const queryClient = useQueryClient();
+  const { data: zones } = useGetZones(1);
 
   const defaultCenter: google.maps.LatLngLiteral = useMemo(
     () => ({
@@ -37,20 +41,25 @@ export default function IncidentsMap() {
   useEffect(() => {
     const socket = io(SOCKET_URL, { query: { userID: data?.user.userID, roleName: "ADMIN" } });
     if (!socket) return;
-    socket.on("update-user-status", () => {
+    socket.on(SOCKET_SUSCRIBE_EVENTS.UPDATE_USER_STATUS, () => {
       queryClient.invalidateQueries({
         queryKey: [USERS_IN_DANGER_QUERY_KEY]
       });
+    });
+    socket.on(SOCKET_SUSCRIBE_EVENTS.UPDATE_POLICE_LOCATION, () => {
       queryClient.invalidateQueries({
         queryKey: [POLICE_LOCATION_QUERY_KEY]
       });
     });
     const userInDangerID = params.get("userID");
     if (userInDangerID) {
-      socket.on(`user-in-danger-${userInDangerID}`, ({ position }: { position: Position }) => {
-        if (position == null) return;
-        setSelectedUserInDanger({ position: { lat: position.lat, lng: position.lng } });
-      });
+      socket.on(
+        `${SOCKET_SUSCRIBE_EVENTS.USER_IN_DANGER}-${userInDangerID}`,
+        ({ position }: { position: Position }) => {
+          if (position == null) return;
+          setSelectedUserInDanger({ position: { lat: position.lat, lng: position.lng } });
+        }
+      );
     }
     return () => {
       socket.disconnect();
@@ -59,11 +68,28 @@ export default function IncidentsMap() {
 
   return (
     <GoogleMapApiProvider>
-      <DynamicMap defaultCenter={defaultCenter} streetViewControl={false} zoomControl={false}>
+      <DynamicMap
+        defaultCenter={defaultCenter}
+        streetViewControl={false}
+        zoomControl={false}
+        defaultZoom={13}
+      >
         <ViewPastAlarmsControl />
         <UsersInDangerControl />
         <PoliceMarkers />
         <UserInDangerMarkers />
+        {zones &&
+          zones.length > 0 &&
+          zones.map((zone) => (
+            <Polygon
+              fillColor={zone.zoneColor}
+              strokeColor={zone.zoneColor}
+              paths={zone.polygon.map((p) => {
+                return new google.maps.LatLng(p[0], p[1]);
+              })}
+              key={zone.zoneID}
+            />
+          ))}
       </DynamicMap>
     </GoogleMapApiProvider>
   );

@@ -3,10 +3,9 @@ import SearchInput from "@/components/SearchInput";
 import { Zone } from "@/models/zone.model";
 import { Card, Radio } from "@mantine/core";
 import { useDebouncedState } from "@mantine/hooks";
-import { useQuery } from "@tanstack/react-query";
 import { ControlPosition, MapControl } from "@vis.gl/react-google-maps";
 import { useEffect, useState } from "react";
-import { getZoneService } from "../services/getZones.service";
+import { useGetZones } from "../hooks/useGetZones.hook";
 import { useZoneControlStore } from "../store/zoneControl.store";
 import CardZone from "./CardZone";
 import { Polygon } from "./Polygon";
@@ -25,11 +24,9 @@ export default function ZonesControl() {
   const setIsEditingOrCreating = useZoneControlStore((state) => state.setIsEditingOrCreating);
   const currentColor = useZoneControlStore((state) => state.currentColor);
   const setCurrentColor = useZoneControlStore((state) => state.setCurrentColor);
+
   // Query
-  const { data } = useQuery({
-    queryKey: ["zones"],
-    queryFn: getZoneService
-  });
+  const { data } = useGetZones();
 
   const handleSearch = (query: string) => {
     if (query) {
