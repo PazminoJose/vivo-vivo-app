@@ -1,4 +1,4 @@
 export interface IncidentType {
-  incidentTypeID: number;
+  incidentTypeID?: number;
   incidentTypeName: string;
 }

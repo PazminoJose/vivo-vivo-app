@@ -4,7 +4,7 @@ export interface UserInDanger {
   avatar: string;
   fullName: string;
   phone: string;
-  incidentTypeID: number | null;
+  incidentTypeName: string | null;
   alarmID: number;
   position: { lat: number; lng: number };
 }

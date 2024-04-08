@@ -3,6 +3,6 @@ import { UserRoleData } from "@/models/user-role-data.model";
 
 export function getUserRoleDataByPoliceRoleService() {
   const url = `/user-rol/police`;
-  const res = API.get<UserRoleData[]>({ url });
+  const res = API.get<Record<string, UserRoleData>>({ url });
   return res;
 }

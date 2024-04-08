@@ -23,7 +23,7 @@ export default function UserInDangerCard({ userInDanger: user }: UserInDangerCar
   const setSelectedUserInDanger = useIncidentsStore((store) => store.setSelectedUserInDanger);
 
   const { data: incidentsType } = useGetIncidentsType();
-  const { mutate: updateMutation, isPending } = usePatchAlarm();
+  const { mutate: updateMutation, isPending } = usePatchAlarm({ onSuccess: closeMenu });
 
   const handleClickViewUserInDanger = (user: UserInDanger) => {
     setSelectedUserInDanger(user);
@@ -31,30 +31,30 @@ export default function UserInDangerCard({ userInDanger: user }: UserInDangerCar
   };
 
   const handleIncidentTypeChange = (value: string) => {
+    if (!incidentsType) return;
     setIncidentsTypeAutocompleteValue(value);
-    const incidentType = incidentsType?.find((i) => i.incidentTypeName === value);
+    const incidentType = incidentsType[value];
     if (incidentType) setSelectedIncidentType(incidentType);
-    else setSelectedIncidentType(null);
+    else
+      setSelectedIncidentType({
+        incidentTypeName: value
+      });
   };
 
   const handleAddInformation = () => {
-    updateMutation(
-      {
-        alarm: { incidentTypeID: selectedIncidentType?.incidentTypeID },
-        alarmID: user.alarmID
-      },
-      {
-        onSuccess: closeMenu
-      }
-    );
+    if (!selectedIncidentType) return;
+    updateMutation({
+      incidentType: selectedIncidentType,
+      alarmID: user.alarmID
+    });
   };
 
   useEffect(() => {
-    if (user.incidentTypeID) {
-      const incidentType = incidentsType?.find((i) => i.incidentTypeID === user.incidentTypeID);
+    if (user.incidentTypeName && incidentsType) {
+      const incidentType = incidentsType[user.incidentTypeName];
       if (incidentType) setIncidentsTypeAutocompleteValue(incidentType.incidentTypeName);
     }
-  }, [user.incidentTypeID, incidentsType]);
+  }, [user.incidentTypeName, incidentsType]);
 
   return (
     <Card className="mt-2 p-2" key={user.userID}>
@@ -71,29 +71,28 @@ export default function UserInDangerCard({ userInDanger: user }: UserInDangerCar
             <p className="font-bold">Cédula: {user?.dni}.</p>
           </div>
         </div>
-        <Menu
-          position="left"
-          opened={openedMenu}
-          classNames={{ dropdown: "w-32" }}
-          closeOnItemClick={false}
-          closeOnClickOutside={false}
-        >
+        <Menu position="left" opened={openedMenu} closeOnItemClick={false} closeOnClickOutside={false}>
           <Menu.Target>
             <Button leftSection={<IconInfoCircle />} onClick={toggleMenu}>
               Ingresar información
             </Button>
           </Menu.Target>
-          <Menu.Dropdown style={{ width: "15rem" }}>
-            <Menu.Item>
+          <Menu.Dropdown style={{ width: "25rem" }}>
+            <Menu.Item component="div">
               <div className="flex flex-col gap-2">
                 <Autocomplete
                   value={incidentsTypeAutocompleteValue}
                   label="Tipo de incidente"
                   placeholder="Ingrese el tipo de incidente"
-                  data={incidentsType ? incidentsType.map((i) => i.incidentTypeName) : []}
+                  data={Object.keys(incidentsType || {})}
                   onChange={handleIncidentTypeChange}
                 />
-                <Button fullWidth onClick={handleAddInformation} loading={isPending}>
+                <Button
+                  disabled={!incidentsTypeAutocompleteValue.trim()}
+                  fullWidth
+                  onClick={handleAddInformation}
+                  loading={isPending}
+                >
                   Guardar
                 </Button>
               </div>

@@ -1,4 +1,5 @@
 export interface UserRoleData {
   userID: number;
-  names: string;
+  avatar: string;
+  fullName: string;
 }

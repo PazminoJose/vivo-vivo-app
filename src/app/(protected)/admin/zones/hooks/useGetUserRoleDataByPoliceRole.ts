@@ -5,7 +5,7 @@ import { getUserRoleDataByPoliceRoleService } from "../services/getUserRoleDataB
 export const USER_ROLE_POLICE_QUERY_KEY = "user-role-police";
 
 export const useGetUserRoleDataByPoliceRole = () => {
-  return useQuery<UserRoleData[]>({
+  return useQuery<Record<string, UserRoleData>>({
     queryKey: [USER_ROLE_POLICE_QUERY_KEY],
     queryFn: getUserRoleDataByPoliceRoleService
   });
