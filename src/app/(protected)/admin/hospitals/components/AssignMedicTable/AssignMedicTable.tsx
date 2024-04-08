@@ -40,7 +40,7 @@ export default function AssignMedicTable({ hospitalID }: AssignMedicTableProps) 
 
   const handleMedicChange = (value: string) => {
     setAutocompleteValue(value);
-    const medic = medicUserRole?.find((medic) => medic.names === value);
+    const medic = medicUserRole?.find((medic) => medic.fullName === value);
     if (medic) setSelectedMedic(medic);
     else setSelectedMedic(null);
   };
@@ -71,7 +71,7 @@ export default function AssignMedicTable({ hospitalID }: AssignMedicTableProps) 
 
   useEffect(() => {
     if (medicUserRole) {
-      setMedicAutocompleteData(medicUserRole.map((police) => police.names));
+      setMedicAutocompleteData(medicUserRole.map((police) => police.fullName));
     }
   }, [medicUserRole]);
 
@@ -97,7 +97,10 @@ export default function AssignMedicTable({ hospitalID }: AssignMedicTableProps) 
       enableRowActions
       positionActionsColumn="last"
       renderRowActions={({ row }) => (
-        <ActionIcon variant="primary" onClick={() => handleDeleteUserHospital(row.original.userHospitalID)}>
+        <ActionIcon
+          variant="primary"
+          onClick={() => handleDeleteUserHospital(row.original.userHospitalID)}
+        >
           <Tooltip label="Eliminar">
             <IconUserX />
           </Tooltip>

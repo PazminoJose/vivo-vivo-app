@@ -92,12 +92,12 @@ export const paths: Path[] = [
     icon: IconMapRoute,
     roles: routeRoles[ROUTES.ADMIN_ZONES]
   },
-  {
-    label: "Hospitales",
-    href: ROUTES.ADMIN_HOSPITALS,
-    icon: IconHospital,
-    roles: routeRoles[ROUTES.ADMIN_HOSPITALS]
-  },
+  // {
+  //   label: "Hospitales",
+  //   href: ROUTES.ADMIN_HOSPITALS,
+  //   icon: IconHospital,
+  //   roles: routeRoles[ROUTES.ADMIN_HOSPITALS]
+  // },
   // {
   //   label: "Alarmas",
   //   href: ROUTES.ADMIN_ALARMS,
