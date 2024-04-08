@@ -1,10 +1,20 @@
 "use client";
 import DataTable from "@/components/DataTable/DataTable";
+import { IMG_URL } from "@/constants/constants";
 import { UserRoleData } from "@/models/user-role-data.model";
-import { ActionIcon, Autocomplete, Button, Tooltip } from "@mantine/core";
+import {
+  ActionIcon,
+  Autocomplete,
+  AutocompleteProps,
+  Avatar,
+  Button,
+  Group,
+  Text,
+  Tooltip
+} from "@mantine/core";
 import { modals } from "@mantine/modals";
 import { IconUserX } from "@tabler/icons-react";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useDeleteUserZone } from "../../hooks/useDeleteUserZone.hook";
 import { useGetUserRoleDataByPoliceRole } from "../../hooks/useGetUserRoleDataByPoliceRole";
 import { useGetUsersZoneByZoneID } from "../../hooks/useGetUsersZoneByZoneID.hook";
@@ -18,6 +28,7 @@ interface UserZoneTableProps {
 
 export default function AssignPoliceTable({ zoneID }: UserZoneTableProps) {
   const [policeAutocompleteData, setPoliceAutocompleteData] = useState<string[]>([]);
+  const [policeData, setPoliceData] = useState<Record<string, UserRoleData> | null>(null);
   const [selectedPolice, setSelectedPolice] = useState<UserRoleData | null>(null);
   const [autocompleteValue, setAutocompleteValue] = useState<string>("");
 
@@ -33,8 +44,9 @@ export default function AssignPoliceTable({ zoneID }: UserZoneTableProps) {
 
   // Handlers
   const handlePoliceChange = (value: string) => {
+    if (!policeUserRole) return;
     setAutocompleteValue(value);
-    const police = policeUserRole?.find((police) => police.names === value);
+    const police = policeUserRole[value];
     if (police) setSelectedPolice(police);
     else setSelectedPolice(null);
   };
@@ -70,12 +82,15 @@ export default function AssignPoliceTable({ zoneID }: UserZoneTableProps) {
     });
   };
 
-  // Effects
-  useEffect(() => {
-    if (policeUserRole) {
-      setPoliceAutocompleteData(policeUserRole.map((police) => police.names));
-    }
-  }, [policeUserRole]);
+  const renderAutocompleteOption: AutocompleteProps["renderOption"] = ({ option }) =>
+    policeUserRole && (
+      <Group gap="sm">
+        <Avatar src={`${IMG_URL}/${policeUserRole[option.value].avatar}`} size={36} radius="xl" />
+        <div>
+          <Text size="sm">{option.value}</Text>
+        </div>
+      </Group>
+    );
 
   return (
     <DataTable
@@ -85,8 +100,10 @@ export default function AssignPoliceTable({ zoneID }: UserZoneTableProps) {
       renderTopToolbarCustomActions={() => (
         <div className="flex gap-2">
           <Autocomplete
+            className="w-96"
             value={autocompleteValue}
-            data={policeAutocompleteData}
+            data={Object.keys(policeUserRole ?? {})}
+            renderOption={renderAutocompleteOption}
             placeholder="Buscar policía"
             onChange={handlePoliceChange}
           />
