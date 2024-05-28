@@ -2,6 +2,7 @@ import { APP_ROLES } from "@/constants/roles";
 import {
   IconHome,
   IconHospital,
+  IconInfoTriangle,
   IconMap2,
   IconMapPin,
   IconMapRoute,
@@ -40,6 +41,7 @@ export type Path = {
 enum ROUTES {
   ADMIN_HOME = "/admin/home",
   ADMIN_USERS = "/admin/users",
+  ADMIN_INCIDENT_TYPES = "/admin/incident-types",
   ADMIN_SCHEDULES = "/admin/schedules",
   ADMIN_ZONES = "/admin/zones",
   ADMIN_HOSPITALS = "/admin/hospitals",
@@ -52,6 +54,7 @@ enum ROUTES {
 const routeRoles = {
   [ROUTES.ADMIN_HOME]: [APP_ROLES.ADMIN, APP_ROLES.SUPER_ADMIN],
   [ROUTES.ADMIN_USERS]: [APP_ROLES.ADMIN, APP_ROLES.SUPER_ADMIN],
+  [ROUTES.ADMIN_INCIDENT_TYPES]: [APP_ROLES.ADMIN, APP_ROLES.SUPER_ADMIN],
   [ROUTES.ADMIN_SCHEDULES]: [APP_ROLES.ADMIN, APP_ROLES.SUPER_ADMIN],
   [ROUTES.ADMIN_ZONES]: [APP_ROLES.ADMIN, APP_ROLES.SUPER_ADMIN],
   [ROUTES.ADMIN_HOSPITALS]: [APP_ROLES.ADMIN, APP_ROLES.SUPER_ADMIN],
@@ -75,6 +78,18 @@ export const paths: Path[] = [
     roles: routeRoles[ROUTES.ADMIN_USERS]
   },
   {
+    label: "Tipos de incidentes",
+    href: ROUTES.ADMIN_INCIDENT_TYPES,
+    icon: IconInfoTriangle,
+    roles: routeRoles[ROUTES.ADMIN_INCIDENT_TYPES]
+  },
+  {
+    label: "Zonas",
+    href: ROUTES.ADMIN_ZONES,
+    icon: IconMapRoute,
+    roles: routeRoles[ROUTES.ADMIN_ZONES]
+  },
+  {
     label: "Incidentes",
     href: ROUTES.USER_INCIDENTS,
     icon: IconMapPin,
@@ -86,12 +101,6 @@ export const paths: Path[] = [
   //   icon: IconHome,
   //   roles: routeRoles[ROUTES.ADMIN_SCHEDULES]
   // },
-  {
-    label: "Zonas",
-    href: ROUTES.ADMIN_ZONES,
-    icon: IconMapRoute,
-    roles: routeRoles[ROUTES.ADMIN_ZONES]
-  },
   // {
   //   label: "Hospitales",
   //   href: ROUTES.ADMIN_HOSPITALS,
