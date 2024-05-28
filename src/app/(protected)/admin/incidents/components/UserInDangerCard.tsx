@@ -1,5 +1,5 @@
 import { IMG_URL } from "@/constants/constants";
-import { IncidentType } from "@/models/incident-type";
+import { IncidentTypeData } from "@/models/incident-type";
 import { UserInDanger } from "@/models/user-in-danger.model";
 import { Autocomplete, Avatar, Button, Card, Menu } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
@@ -7,7 +7,7 @@ import { IconInfoCircle, IconLocation } from "@tabler/icons-react";
 import { useMap } from "@vis.gl/react-google-maps";
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import { useGetIncidentsType } from "../hooks/useGetIncidentsType.hook";
+import { useGetIncidentsTypeData } from "../hooks/useGetIncidentsTypeData.hook";
 import { usePatchAlarm } from "../hooks/usePatchAlarm.hook";
 import { useIncidentsStore } from "../store/incidents.store";
 
@@ -18,11 +18,11 @@ interface UserInDangerCardProps {
 export default function UserInDangerCard({ userInDanger: user }: UserInDangerCardProps) {
   const map = useMap();
   const [incidentsTypeAutocompleteValue, setIncidentsTypeAutocompleteValue] = useState<string>("");
-  const [selectedIncidentType, setSelectedIncidentType] = useState<IncidentType | null>(null);
+  const [selectedIncidentType, setSelectedIncidentType] = useState<IncidentTypeData | null>(null);
   const [openedMenu, { close: closeMenu, toggle: toggleMenu }] = useDisclosure();
   const setSelectedUserInDanger = useIncidentsStore((store) => store.setSelectedUserInDanger);
 
-  const { data: incidentsType } = useGetIncidentsType();
+  const { data: incidentsTypeData } = useGetIncidentsTypeData();
   const { mutate: updateMutation, isPending } = usePatchAlarm({ onSuccess: closeMenu });
 
   const handleClickViewUserInDanger = (user: UserInDanger) => {
@@ -31,9 +31,9 @@ export default function UserInDangerCard({ userInDanger: user }: UserInDangerCar
   };
 
   const handleIncidentTypeChange = (value: string) => {
-    if (!incidentsType) return;
+    if (!incidentsTypeData) return;
     setIncidentsTypeAutocompleteValue(value);
-    const incidentType = incidentsType[value];
+    const incidentType = incidentsTypeData[value];
     if (incidentType) setSelectedIncidentType(incidentType);
     else
       setSelectedIncidentType({
@@ -50,11 +50,11 @@ export default function UserInDangerCard({ userInDanger: user }: UserInDangerCar
   };
 
   useEffect(() => {
-    if (user.incidentTypeName && incidentsType) {
-      const incidentType = incidentsType[user.incidentTypeName];
+    if (user.incidentTypeName && incidentsTypeData) {
+      const incidentType = incidentsTypeData[user.incidentTypeName];
       if (incidentType) setIncidentsTypeAutocompleteValue(incidentType.incidentTypeName);
     }
-  }, [user.incidentTypeName, incidentsType]);
+  }, [user.incidentTypeName, incidentsTypeData]);
 
   return (
     <Card className="mt-2 p-2" key={user.userID}>
@@ -84,7 +84,7 @@ export default function UserInDangerCard({ userInDanger: user }: UserInDangerCar
                   value={incidentsTypeAutocompleteValue}
                   label="Tipo de incidente"
                   placeholder="Ingrese el tipo de incidente"
-                  data={Object.keys(incidentsType || {})}
+                  data={Object.keys(incidentsTypeData || {})}
                   onChange={handleIncidentTypeChange}
                 />
                 <Button
