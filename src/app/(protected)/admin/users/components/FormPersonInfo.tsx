@@ -1,18 +1,3 @@
-// personInfo: {
-//     personID: 0,
-//     phone: "",
-//     birthDate: new Date(),
-//     address: "",
-//     genderID: 0,
-//     ethnicID: 0,
-//     maritalStatusID: 0
-//   },
-//   personDisability: {
-//     personID: 0,
-//     disabilityID: 0,
-//     percentage: 0
-//   }
-
 import DataSelect from "@/components/DataSelect";
 import { Checkbox, NumberInput, TextInput } from "@mantine/core";
 import { useEffect } from "react";
@@ -71,7 +56,10 @@ export default function FormPersonInfo() {
         {...form.getInputProps("personInfo.maritalStatusID")}
       />
       <div className="col-span-2 flex flex-col">
-        <Checkbox label="Tiene discapacidad" {...form.getInputProps("hasDisability", { type: "checkbox" })} />
+        <Checkbox
+          label="Tiene discapacidad"
+          {...form.getInputProps("hasDisability", { type: "checkbox" })}
+        />
         {form.values.hasDisability && (
           <div className="gpa-5 grid grid-cols-2 gap-5">
             <DataSelect
