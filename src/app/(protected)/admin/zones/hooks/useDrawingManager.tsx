@@ -7,6 +7,7 @@ type DrawingManagerEvents = {
   onDragEnd?: (latLng: google.maps.LatLng[]) => void;
   onInsertAt?: (latLng: google.maps.LatLng[]) => void;
   onSetAt?: (latLng: google.maps.LatLng[]) => void;
+  onPathChange?: (path: google.maps.LatLng[]) => void;
 };
 
 interface DrawingManagerProps {
@@ -31,7 +32,8 @@ export function useDrawingManager({ events, ...props }: DrawingManagerProps) {
   Object.assign(callbacks.current, {
     onDragEnd: events?.onDragEnd,
     onInsertAt: events?.onInsertAt,
-    onSetAt: events?.onSetAt
+    onSetAt: events?.onSetAt,
+    onPathChange: events?.onPathChange
   });
 
   const clearSelectedShape = () => {
@@ -80,6 +82,7 @@ export function useDrawingManager({ events, ...props }: DrawingManagerProps) {
           // Check if the polygon has at least 3 points
           // const pathLength = drawResult.overlay.getPath().getArray().length;
           setSelectedShape(drawResult.overlay);
+          if (events?.onPathChange) events.onPathChange(drawResult.overlay.getPath().getArray());
           // if (pathLength >= 3) setSelectedShape(drawResult.overlay);
           // else {
           //   drawResult.overlay.setPath([]);
@@ -98,6 +101,7 @@ export function useDrawingManager({ events, ...props }: DrawingManagerProps) {
               const callback = callbacks.current[eventCallback];
               const points = drawResult.overlay.getPath().getArray();
               if (callback) callback(points);
+              if (events?.onPathChange) events.onPathChange(points);
             });
             eventListeners.push(event);
           });
@@ -110,6 +114,7 @@ export function useDrawingManager({ events, ...props }: DrawingManagerProps) {
               const callback = callbacks.current[eventCallback];
               const points = drawResult.overlay.getPath().getArray();
               if (callback) callback(points);
+              if (events?.onPathChange) events.onPathChange(points);
             });
             eventListeners.push(event);
           });

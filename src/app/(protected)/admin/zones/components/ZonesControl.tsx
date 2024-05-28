@@ -8,14 +8,13 @@ import { useEffect, useState } from "react";
 import { useGetZones } from "../hooks/useGetZones.hook";
 import { useZoneControlStore } from "../store/zoneControl.store";
 import CardZone from "./CardZone";
-import { Polygon } from "./Polygon";
+import ZonesPolygons from "./ZonesPolygons";
 
 type ViewZoneMode = "all" | "active" | "inactive";
 
 export default function ZonesControl() {
   const [zones, setZones] = useState<Zone[]>([]);
   const [zoneViewMode, setZoneViewMode] = useState<ViewZoneMode>("all");
-  // const [debouncedZonePath, setDebouncedZonePath] = useState<number[][]>([]);
   const [debouncedZonePath, setDebouncedZonePath] = useDebouncedState<number[][]>([], 200);
   // Store
   const selectedZone = useZoneControlStore((state) => state.selectedZone);
@@ -76,37 +75,6 @@ export default function ZonesControl() {
 
   return (
     <>
-      {zones &&
-        zones?.length > 0 &&
-        zones.map((zone) => {
-          const isEditingOrCreatingCurrentZone =
-            isEditingOrCreating && zone.zoneID === selectedZone?.zoneID;
-          const isActive = zone.state === 1;
-          const path = zone.polygon.map((p) => {
-            return new google.maps.LatLng(p[0], p[1]);
-          });
-          return (
-            <Polygon
-              editable={isEditingOrCreatingCurrentZone}
-              draggable={isEditingOrCreatingCurrentZone}
-              fillColor={
-                isActive ? (isEditingOrCreatingCurrentZone ? currentColor : zone.zoneColor) : "grey"
-              }
-              strokeColor={
-                isActive ? (isEditingOrCreatingCurrentZone ? currentColor : zone.zoneColor) : "grey"
-              }
-              onPathChange={handleOnPathChange}
-              key={zone.zoneID}
-              paths={
-                isEditingOrCreatingCurrentZone && debouncedZonePath.length > 0
-                  ? debouncedZonePath.map((p) => {
-                      return new google.maps.LatLng(p[0], p[1]);
-                    })
-                  : path
-              }
-            />
-          );
-        })}
       <MapControl position={ControlPosition.RIGHT_TOP}>
         <Card className="mr-4 flex max-h-[75vh] w-[17rem] flex-col gap-1 border border-primary-400 bg-primary-100 p-2 pr-0 shadow-lg">
           <h2 className="text-center text-lg font-bold">Zonas:</h2>
@@ -127,6 +95,11 @@ export default function ZonesControl() {
           </div>
         </Card>
       </MapControl>
+      <ZonesPolygons
+        zones={zones}
+        onPathChange={handleOnPathChange}
+        debouncedZonePath={debouncedZonePath}
+      />
     </>
   );
 }

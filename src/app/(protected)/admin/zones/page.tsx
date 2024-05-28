@@ -1,7 +1,7 @@
 import dynamic from "next/dynamic";
 import { useMemo } from "react";
 import GoogleMapApiProvider from "../providers/GoogleMapApiProvider";
-import FormZoneControl from "./components/FormZoneControl";
+import FormZoneControl from "./components/FormZoneControl/FormZoneControl";
 import ZonesControl from "./components/ZonesControl";
 const DynamicMap = dynamic(() => import("../components/Map"), {
   ssr: false

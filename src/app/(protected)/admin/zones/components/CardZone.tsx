@@ -1,9 +1,9 @@
 "use client";
 import { cn } from "@/lib/utils";
 import { Zone } from "@/models/zone.model";
-import { Button, Card, Modal } from "@mantine/core";
+import { ActionIcon, Card, Menu, Modal } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
-import { IconEdit, IconLocation } from "@tabler/icons-react";
+import { IconClipboardList, IconDots, IconEdit, IconLocation } from "@tabler/icons-react";
 import { useMap } from "@vis.gl/react-google-maps";
 import AssignPoliceTable from "./AssingPoliceTable/AssignPoliceTable";
 
@@ -28,25 +28,32 @@ export default function CardZone({ zone, onEdit }: CardZoneProps) {
 
   return (
     <Card
-      className={cn("mt-4 border border-primary-400 p-2", isDisabled ? "bg-primary-300" : "bg-white")}
+      className={cn(
+        "mt-4 flex flex-row justify-between gap-3 border border-primary-400 p-2",
+        isDisabled ? "bg-primary-300" : "bg-white"
+      )}
     >
-      <h2
-        className={cn("text-center text-lg font-bold")}
-        style={{ color: !isDisabled ? zone.zoneColor : "gray" }}
-      >
+      <h2 className={cn("text-lg font-bold")} style={{ color: !isDisabled ? zone.zoneColor : "gray" }}>
         {zone.zoneName}
       </h2>
-      <div className="flex flex-col gap-2">
-        <Button leftSection={<IconEdit />} onClick={handleSelectZone}>
-          Editar
-        </Button>
-        <Button disabled={isDisabled} leftSection={<IconEdit />} onClick={open}>
-          Asignar Policías
-        </Button>
-        <Button leftSection={<IconLocation />} className="w-full" onClick={handleMoveCamera}>
-          Ver en el mapa
-        </Button>
-      </div>
+      <Menu>
+        <Menu.Target>
+          <ActionIcon variant="transparent">
+            <IconDots />
+          </ActionIcon>
+        </Menu.Target>
+        <Menu.Dropdown>
+          <Menu.Item leftSection={<IconEdit />} onClick={handleSelectZone}>
+            Editar
+          </Menu.Item>
+          <Menu.Item leftSection={<IconClipboardList />} onClick={open}>
+            Asignar Policías
+          </Menu.Item>
+          <Menu.Item leftSection={<IconLocation />} onClick={handleMoveCamera}>
+            Ver en el mapa
+          </Menu.Item>
+        </Menu.Dropdown>
+      </Menu>
       <Modal
         size="xl"
         opened={opened}

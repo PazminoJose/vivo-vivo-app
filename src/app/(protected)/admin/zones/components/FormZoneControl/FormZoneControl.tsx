@@ -9,27 +9,11 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { ControlPosition, MapControl } from "@vis.gl/react-google-maps";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
-import { z } from "zod";
-import { useDrawingManager } from "../hooks/useDrawingManager";
-import { postZoneService } from "../services/postZone.service";
-import { putZoneService } from "../services/putZones.service";
-import { useZoneControlStore } from "../store/zoneControl.store";
-
-const zoneSchema = z.object({
-  zoneID: z.number().optional(),
-  zoneName: z.string().min(5, "El nombre de la zona es muy corto"),
-  zoneColor: z.string(),
-  polygon: z.array(z.array(z.number()).length(2)),
-  state: z.number().optional()
-});
-
-export type ZoneSchema = z.infer<typeof zoneSchema>;
-
-const zoneInitialValues: ZoneSchema = {
-  zoneName: "",
-  zoneColor: "#000000",
-  polygon: []
-};
+import { useDrawingManager } from "../../hooks/useDrawingManager";
+import { postZoneService } from "../../services/postZone.service";
+import { putZoneService } from "../../services/putZones.service";
+import { useZoneControlStore } from "../../store/zoneControl.store";
+import { ZoneSchema, zoneInitialValues, zoneSchema } from "./formZoneControlSchema";
 
 export default function FormZoneControl() {
   const [isDrawing, setIsDrawing] = useState(false);
@@ -52,6 +36,9 @@ export default function FormZoneControl() {
       draggable: true,
       fillColor: debouncedColor,
       strokeColor: debouncedColor
+    },
+    events: {
+      onPathChange: (e) => handleUpdatePolygonPoints(e)
     }
   });
 
@@ -60,6 +47,11 @@ export default function FormZoneControl() {
     initialValues: zoneInitialValues,
     validate: zodResolver(zoneSchema)
   });
+
+  const handleUpdatePolygonPoints = (points: google.maps.LatLng[]) => {
+    const polygon = points.map((p) => [p.lat(), p.lng()]);
+    form.setValues({ polygon });
+  };
 
   // Handlers
   const handleChangeColor = (color: string) => {
@@ -117,20 +109,6 @@ export default function FormZoneControl() {
   });
 
   // Effects
-  // Update polygon when selected shape changes
-  useEffect(() => {
-    if (!isEditingOrCreating) {
-      selectedShape?.setMap(null);
-    }
-    const polygon =
-      selectedShape && isEditingOrCreating
-        ? selectedShape
-            ?.getPath()
-            .getArray()
-            .map((p) => [p.lat(), p.lng()])
-        : [];
-    form.setValues({ polygon });
-  }, [selectedShape]);
   // Update form values when selected zone changes
   useEffect(() => {
     if (selectedZone) {

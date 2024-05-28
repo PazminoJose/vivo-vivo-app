@@ -1,6 +1,6 @@
 import API from "@/lib/axios/api";
 import { Zone } from "@/models/zone.model";
-import { ZoneSchema } from "../components/FormZoneControl";
+import { ZoneSchema } from "../components/FormZoneControl/FormZoneControl";
 
 export function postZoneService(zone: ZoneSchema) {
   const url = "/zones";
