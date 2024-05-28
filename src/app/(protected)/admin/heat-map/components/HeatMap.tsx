@@ -1,26 +1,34 @@
 "use client";
-import { useEffect, useMemo, useState } from "react";
+import { useMemo } from "react";
 import Map from "../../components/Map";
-import { getPointsService } from "../services/get-points.service";
+import { useHeatMapContext } from "../context/HeatMapContext";
+import { useGetPoints } from "../hooks/useGetPoints.hook";
 import HeatMapLayer from "./HeatMapLayer";
+import IncidentTypeSelectorControl from "./IncidentTypeSelectorControl";
+import IncidentsIndicatorControl from "./IncidentsIndicatorControl";
 
 export default function HeatMap() {
-  const defaultCenter: google.maps.LatLngLiteral = useMemo(() => ({ lat: -1.253351, lng: -78.623011 }), []);
-  const [points, setPoints] = useState<google.maps.LatLng[]>([]);
-
-  const getPoints = async () => {
-    const res = await getPointsService();
-    const points = res.map((point) => new google.maps.LatLng(point[0], point[1]));
-    setPoints(points);
-  };
-
-  useEffect(() => {
-    getPoints();
-  }, []);
+  const defaultCenter: google.maps.LatLngLiteral = useMemo(
+    () => ({ lat: -1.253351, lng: -78.623011 }),
+    []
+  );
+  // const [points, setPoints] = useState<google.maps.LatLng[]>([]);
+  const { alarmStatusID, incidentTypesIds, dateRange } = useHeatMapContext();
+  const { data: heatMapData } = useGetPoints({
+    alarmStatusID,
+    incidentTypeIDs: incidentTypesIds,
+    dateRange
+  });
 
   return (
-    <Map defaultCenter={defaultCenter}>
-      <HeatMapLayer points={points ?? []} />
+    <Map defaultCenter={defaultCenter} streetViewControl={false}>
+      <IncidentTypeSelectorControl />
+      <IncidentsIndicatorControl heatMapData={heatMapData ?? []} />
+      {heatMapData &&
+        heatMapData.length > 0 &&
+        heatMapData.map((value) => (
+          <HeatMapLayer key={value.incidentTypeID} points={value.points} gradient={value.gradient} />
+        ))}
     </Map>
   );
 }
