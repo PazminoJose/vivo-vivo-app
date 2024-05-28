@@ -17,7 +17,7 @@ interface DataTableProps<T extends MRT_RowData> extends MRT_TableOptions<T> {
 }
 
 export default function DataTable<T extends MRT_RowData>(props: DataTableProps<T>) {
-  const { tableRef, ...tableProps } = props;
+  const { tableRef, initialState, ...tableProps } = props;
   const icons: Partial<MRT_Icons> = {
     IconArrowsSort: () => <IconArrowsSort className="text-black hover:text-black" />,
     IconSortAscending: () => <IconSortAscending className="text-black hover:text-black" />,
@@ -36,7 +36,8 @@ export default function DataTable<T extends MRT_RowData>(props: DataTableProps<T
       showGlobalFilter: true,
       columnPinning: {
         right: ["mrt-row-actions"]
-      }
+      },
+      ...initialState
     },
     localization: MRT_Localization_ES,
     mantineBottomToolbarProps: { className: "text-black" },
