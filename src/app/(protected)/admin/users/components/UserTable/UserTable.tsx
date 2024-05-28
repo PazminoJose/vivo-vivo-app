@@ -1,32 +1,49 @@
 "use client";
 import DataTable from "@/components/DataTable/DataTable";
 import { User } from "@/models/user.model";
-import { Button, Menu, Modal } from "@mantine/core";
-import { useDisclosure } from "@mantine/hooks";
-import { IconUserEdit, IconUserPlus, IconUserX } from "@tabler/icons-react";
+import { ActionIcon, Button, Loader, Menu } from "@mantine/core";
+import { modals } from "@mantine/modals";
+import { IconCircle, IconCircleOff, IconDots, IconEdit, IconPlus } from "@tabler/icons-react";
 import { useState } from "react";
-import { RegisterSchema } from "../../context/registerFormContext";
 import { useGetUsers } from "../../hooks/useGetUsers.hook";
+import { usePatchToggleUserState } from "../../hooks/usePatchToggleUserState.hook";
 import { parseRegisterSchema } from "../../utils/parseRegisterSchema";
 import FormRegister from "../FormRegister";
 import useUserTableColumns from "./useUserTableColumns";
 
 export default function UsersTable() {
-  const [opened, { open, close }] = useDisclosure();
-  const [selectedUser, setSelectedUser] = useState<RegisterSchema | null>(null);
+  const [selectedUserID, setSelectedUserID] = useState<number>(0);
 
   const { data: users, isLoading } = useGetUsers();
   const columns = useUserTableColumns();
 
-  const handleEdit = async (user: User) => {
-    const parseUser = await parseRegisterSchema(user);
-    setSelectedUser(parseUser);
-    open();
+  const { mutateAsync: toggleUserStateMutation, isPending } = usePatchToggleUserState();
+
+  const handleToggleUserState = async (user: User) => {
+    const { userID, person, state } = user;
+    const fullName = `${person.firstName} ${person.middleName} ${person.lastNames}`;
+    setSelectedUserID(userID);
+    modals.openConfirmModal({
+      title: "Confirmar",
+      children: `¿Está seguro de que desea ${state === 0 ? "habilitar" : "deshabilitar"} el usuario ${fullName}?`,
+      onConfirm: () => {
+        toggleUserStateMutation(userID)
+          .then(() => setSelectedUserID(0))
+          .catch(() => setSelectedUserID(0));
+      }
+    });
+
+    toggleUserStateMutation(userID)
+      .then(() => setSelectedUserID(0))
+      .catch(() => setSelectedUserID(0));
   };
 
-  const handleCancel = () => {
-    close();
-    setSelectedUser(null);
+  const handleOpenFormRegister = async (user?: User) => {
+    const parseUser = user ? await parseRegisterSchema(user) : undefined;
+    modals.open({
+      size: "xl",
+      children: <FormRegister initialValues={parseUser} />
+    });
   };
 
   return (
@@ -35,27 +52,46 @@ export default function UsersTable() {
         state={{ isLoading }}
         enableColumnPinning
         enableRowActions
-        renderRowActionMenuItems={({ row }) => (
-          <>
-            <Menu.Item leftSection={<IconUserEdit />} onClick={async () => handleEdit(row.original)}>
-              Editar
-            </Menu.Item>
-            <Menu.Item leftSection={<IconUserX />} onClick={() => {}}>
-              Deshabilitar
-            </Menu.Item>
-          </>
-        )}
+        renderRowActions={({ row }) => {
+          const isDisabled = row.original.state === 0;
+          const isLoading = isPending && selectedUserID === row.original.userID;
+          return (
+            <Menu closeOnItemClick={false} trigger="hover">
+              <Menu.Target>
+                <div className="flex w-full justify-center">
+                  <ActionIcon variant="transparent">
+                    <IconDots />
+                  </ActionIcon>
+                </div>
+              </Menu.Target>
+              <Menu.Dropdown>
+                <Menu.Item
+                  leftSection={<IconEdit />}
+                  onClick={async () => handleOpenFormRegister(row.original)}
+                >
+                  Editar
+                </Menu.Item>
+                <Menu.Item
+                  disabled={isLoading && selectedUserID === row.original.userID}
+                  leftSection={
+                    isLoading ? <Loader size="sm" /> : isDisabled ? <IconCircle /> : <IconCircleOff />
+                  }
+                  onClick={() => handleToggleUserState(row.original)}
+                >
+                  {isDisabled ? "Habilitar" : "Deshabilitar"}
+                </Menu.Item>
+              </Menu.Dropdown>
+            </Menu>
+          );
+        }}
         renderTopToolbarCustomActions={() => (
-          <Button leftSection={<IconUserPlus />} onClick={open}>
+          <Button leftSection={<IconPlus />} onClick={() => handleOpenFormRegister()}>
             Crear
           </Button>
         )}
         columns={columns}
         data={users ?? []}
       />
-      <Modal size="xl" opened={opened} onClose={handleCancel}>
-        <FormRegister onSubmitSuccess={close} initialValues={selectedUser} />
-      </Modal>
     </div>
   );
 }

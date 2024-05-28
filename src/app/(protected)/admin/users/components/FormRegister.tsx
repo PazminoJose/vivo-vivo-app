@@ -17,11 +17,10 @@ import FormPersonInfo from "./FormPersonInfo";
 import FormUser from "./FormUser";
 
 interface FormRegisterProps {
-  onSubmitSuccess?: () => void;
-  initialValues?: RegisterSchema | null;
+  initialValues?: RegisterSchema;
 }
 
-export default function FormRegister({ onSubmitSuccess, initialValues }: FormRegisterProps) {
+export default function FormRegister({ initialValues }: FormRegisterProps) {
   const [active, setActive] = useState(0);
   const [currentErrorStep, setCurrentErrorStep] = useState<number | null>(null);
   const nextStep = () => setActive((current) => (current < 2 ? current + 1 : current));
@@ -32,12 +31,8 @@ export default function FormRegister({ onSubmitSuccess, initialValues }: FormReg
     validate: zodResolver(registerSchema)
   });
 
-  const { mutate: createMutation, isPending: isPendingCreate } = usePostRegister({
-    onSuccess: onSubmitSuccess
-  });
-  const { mutate: editMutation, isPending: isPendingEdite } = usePutRegister({
-    onSuccess: onSubmitSuccess
-  });
+  const { mutate: createMutation, isPending: isPendingCreate } = usePostRegister();
+  const { mutate: editMutation, isPending: isPendingEdite } = usePutRegister();
 
   const handleSubmit = (values: RegisterSchema) => {
     const { hasDisability } = values;

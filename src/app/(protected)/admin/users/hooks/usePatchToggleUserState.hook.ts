@@ -1,17 +1,15 @@
-import { modals } from "@mantine/modals";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
-import { putRegisterService } from "../services/putRegister.service";
+import { patchToggleUserStateService } from "../services/patchToogleUserState.service";
 import { USERS_QUERY_KEY } from "./useGetUsers.hook";
 
-export const usePutRegister = () => {
+export const usePatchToggleUserState = () => {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: putRegisterService,
+    mutationFn: patchToggleUserStateService,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: [USERS_QUERY_KEY] });
-      toast.success("Usuario editado correctamente");
-      modals.closeAll();
+      toast.success("El estado del usuario ha sido cambiado correctamente");
     }
   });
 };

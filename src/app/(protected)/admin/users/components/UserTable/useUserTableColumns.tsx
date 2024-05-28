@@ -35,14 +35,32 @@ export default function useUserTableColumns() {
         mantineFilterMultiSelectProps: {
           data: [
             { label: "Admin", value: "ADMIN" },
+            { label: "Super Administrador", value: "SUPER_ADMIN" },
             { label: "User", value: "USER" },
-            { label: "Policía", value: "POLICE" }
+            { label: "Policía", value: "POLICE" },
+            { label: "Médico", value: "MEDIC" }
           ]
         },
         filterFn: (row, id, filterValue) => {
           if (filterValue.length === 0) return true;
           const roles = row.original.userRole.map((r) => r.role.roleName);
           return roles.some((role) => role === filterValue);
+        }
+      },
+      {
+        id: "state",
+        accessorFn: (user) => (user.state === 1 ? "Activo" : "Inactivo"),
+        header: "Estado",
+        filterVariant: "select",
+        mantineFilterSelectProps: {
+          data: [
+            { label: "Activo", value: "Activo" },
+            { label: "Inactivo", value: "Inactivo" }
+          ]
+        },
+        filterFn: (row, id, filterValue) => {
+          if (filterValue.length === 0) return true;
+          return row.original.state === (filterValue === "Activo" ? 1 : 0);
         }
       },
       {
