@@ -1,9 +1,9 @@
 import API from "@/lib/axios/api";
-import { IncidentType } from "@/models/incident-type";
+import { IncidentTypeData } from "@/models/incident-type";
 
 interface ServiceProps {
   alarmID: number;
-  incidentType: IncidentType;
+  incidentType: IncidentTypeData;
 }
 
 export async function patchAlarm({ alarmID, incidentType }: ServiceProps) {
