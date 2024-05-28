@@ -138,7 +138,7 @@ export const PlaceAutocomplete = ({ onPlaceSelect, currentPlace, inputProps }: P
                 return (
                   <li
                     key={place_id}
-                    className="custom-list-item rounded-lg p-2 hover:cursor-pointer hover:bg-primary-300"
+                    className="rounded-lg p-2 hover:cursor-pointer hover:bg-primary-300"
                     onClick={() => handleSuggestionClick(place_id)}
                   >
                     {description}
