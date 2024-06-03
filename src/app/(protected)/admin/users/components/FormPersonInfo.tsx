@@ -1,5 +1,6 @@
 import DataSelect from "@/components/DataSelect";
 import { Checkbox, NumberInput, TextInput } from "@mantine/core";
+import { DateInput } from "@mantine/dates";
 import { useEffect } from "react";
 import { registerInitialValues, useRegisterFormContext } from "../context/registerFormContext";
 import { useGetDisabilities } from "../hooks/useGetDisabilities.hook";
@@ -55,29 +56,33 @@ export default function FormPersonInfo() {
         accessorValue="id"
         {...form.getInputProps("personInfo.maritalStatusID")}
       />
-      <div className="col-span-2 flex flex-col">
-        <Checkbox
-          label="Tiene discapacidad"
-          {...form.getInputProps("hasDisability", { type: "checkbox" })}
-        />
-        {form.values.hasDisability && (
-          <div className="gpa-5 grid grid-cols-2 gap-5">
-            <DataSelect
-              label="Discapacidad"
-              placeholder="Seleccione una discapacidad"
-              data={disabilities ?? []}
-              accessorLabel="name"
-              accessorValue="id"
-              {...form.getInputProps("personDisability.disabilityID")}
-            />
-            <NumberInput
-              label="Porcentaje de discapacidad"
-              placeholder="Porcentaje de discapacidad"
-              {...form.getInputProps("personDisability.percentage")}
-            />
-          </div>
-        )}
-      </div>
+      <DateInput
+        label="Fecha de nacimiento"
+        placeholder="Ingrese la fecha de nacimiento"
+        {...form.getInputProps("personInfo.birthDate")}
+      />
+      <Checkbox
+        className="mt-6"
+        label="Tiene discapacidad"
+        {...form.getInputProps("hasDisability", { type: "checkbox" })}
+      />
+      {form.values.hasDisability && (
+        <>
+          <DataSelect
+            label="Discapacidad"
+            placeholder="Seleccione una discapacidad"
+            data={disabilities ?? []}
+            accessorLabel="name"
+            accessorValue="id"
+            {...form.getInputProps("personDisability.disabilityID")}
+          />
+          <NumberInput
+            label="Porcentaje de discapacidad"
+            placeholder="Porcentaje de discapacidad"
+            {...form.getInputProps("personDisability.percentage")}
+          />
+        </>
+      )}
     </div>
   );
 }

@@ -51,13 +51,19 @@ export const theme = createTheme({
     TextInput: TextInput.extend({
       classNames: {
         label: "text-primary-600 font-bold",
-        input: cn("rounded-md border-2 border-primary-900 placeholder:text-primary-500", classes.hasError)
+        input: cn(
+          "rounded-md border-2 border-primary-900 placeholder:text-primary-500",
+          classes.hasError
+        )
       }
     }),
     PasswordInput: PasswordInput.extend({
       classNames: {
         label: "text-primary-600 font-bold",
-        input: cn("rounded-md border-2 border-primary-900 placeholder:text-primary-500", classes.hasError)
+        input: cn(
+          "rounded-md border-2 border-primary-900 placeholder:text-primary-500",
+          classes.hasError
+        )
       }
     }),
     ActionIcon: ActionIcon.extend({
@@ -67,7 +73,10 @@ export const theme = createTheme({
     }),
     DateInput: DateInput.extend({
       classNames: {
-        input: "border-secondary-600 border-2 rounded-md",
+        input: cn(
+          "rounded-md border-2 border-primary-900 placeholder:text-primary-500",
+          classes.hasError
+        ),
         label: "text-secondary-600 font-bold"
       }
     }),
@@ -94,7 +103,10 @@ export const theme = createTheme({
     }),
     Select: Select.extend({
       classNames: {
-        input: cn("rounded-md border-2 border-primary-900 placeholder:text-primary-500", classes.hasError)
+        input: cn(
+          "rounded-md border-2 border-primary-900 placeholder:text-primary-500",
+          classes.hasError
+        )
       }
     }),
     RadioGroup: Radio.Group.extend({
