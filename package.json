@@ -20,7 +20,7 @@
     "@tabler/icons-react": "^3.5.0",
     "@tanstack/react-query": "^5.40.0",
     "@tanstack/react-query-devtools": "^5.40.0",
-    "@vis.gl/react-google-maps": "^1.0.1",
+    "@vis.gl/react-google-maps": "^1.0.2",
     "axios": "^1.7.2",
     "clsx": "^2.1.1",
     "dayjs": "^1.11.11",
@@ -46,7 +46,7 @@
     "postcss-preset-mantine": "^1.15.0",
     "postcss-simple-vars": "^7.0.1",
     "prettier": "^3.2.5",
-    "prettier-plugin-tailwindcss": "^0.5.14",
+    "prettier-plugin-tailwindcss": "^0.6.0",
     "tailwindcss": "^3.4.3",
     "typescript": "^5"
   }
