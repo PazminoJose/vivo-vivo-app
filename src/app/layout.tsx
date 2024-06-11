@@ -1,10 +1,9 @@
-import Providers from "@/providers/providers";
+import Providers from "@/providers/Providers";
 import { ColorSchemeScript } from "@mantine/core";
 import "@mantine/core/styles.css";
 import "@mantine/dates/styles.css";
 import "mantine-react-table/styles.css";
 import type { Metadata } from "next";
-import { Toaster } from "sonner";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -19,7 +18,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <ColorSchemeScript />
       </head>
       <body>
-        <Toaster richColors position="bottom-center" />
         <Providers>{children}</Providers>
       </body>
     </html>

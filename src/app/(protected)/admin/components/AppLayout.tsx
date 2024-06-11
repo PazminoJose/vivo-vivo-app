@@ -4,7 +4,7 @@ import { AppShell, Burger, Group, Text } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import { useSession } from "next-auth/react";
 import { ReactNode, useState } from "react";
-import NavLinks from "./NavLinks";
+import NavLinks from "./NavLinks/NavLinks";
 
 interface AppLayoutProps {
   children: ReactNode;
@@ -13,10 +13,12 @@ interface AppLayoutProps {
 export default function AppLayout({ children }: AppLayoutProps) {
   const { data: session } = useSession();
   const [opened, { toggle }] = useDisclosure();
+
   const [title, setTitle] = useState("");
   const handleLinkChange = (title: string) => {
     setTitle(title);
   };
+
   return (
     <AppShell
       layout="alt"

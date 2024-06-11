@@ -1,6 +1,6 @@
 "use client";
 import { Menu } from "@mantine/core";
-import { IconSettingsFilled } from "@tabler/icons-react";
+import { IconLockSquareRounded, IconLogout, IconSettingsFilled } from "@tabler/icons-react";
 import { signOut } from "next-auth/react";
 import { useRouter } from "next/navigation";
 
@@ -17,7 +17,12 @@ export default function ConfigMenu() {
           <IconSettingsFilled className="hover:cursor-pointer" />
         </Menu.Target>
         <Menu.Dropdown>
-          <Menu.Item onClick={async () => await handleSignOut()}>Cerrar Sesión</Menu.Item>
+          <Menu.Item leftSection={<IconLockSquareRounded />} onClick={async () => await handleSignOut()}>
+            Cambiar contraseña
+          </Menu.Item>
+          <Menu.Item leftSection={<IconLogout />} onClick={async () => await handleSignOut()}>
+            Cerrar Sesión
+          </Menu.Item>
         </Menu.Dropdown>
       </Menu>
     </div>
