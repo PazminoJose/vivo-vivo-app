@@ -1,10 +1,12 @@
 {
     "cSpell.words": [
         "clsx",
+        "dayjs",
         "mantine",
         "Mantine",
         "sonner",
         "tabler",
-        "tanstack"
+        "tanstack",
+        "zustand"
     ]
 }
