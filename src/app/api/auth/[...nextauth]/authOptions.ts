@@ -2,7 +2,6 @@ import { NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 
 export const authOptions: NextAuthOptions = {
-  secret: process.env.AUTH_SECRET,
   session: {
     strategy: "jwt",
     maxAge: 14 * 24 * 60 * 60 // 14 days in seconds
