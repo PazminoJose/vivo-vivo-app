@@ -1,3 +1,5 @@
+import PowerBIReport from "./components/PowerBIReport";
+
 export default function DashboardPage() {
-  return <>Dashboard</>;
+  return <PowerBIReport />;
 }
