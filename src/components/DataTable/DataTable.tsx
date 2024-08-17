@@ -17,7 +17,14 @@ interface DataTableProps<T extends MRT_RowData> extends MRT_TableOptions<T> {
 }
 
 export default function DataTable<T extends MRT_RowData>(props: DataTableProps<T>) {
-  const { tableRef, initialState, ...tableProps } = props;
+  const {
+    tableRef,
+    initialState,
+    mantineTableContainerProps,
+    mantineBottomToolbarProps,
+    mantineFilterSelectProps,
+    ...tableProps
+  } = props;
   const icons: Partial<MRT_Icons> = {
     IconArrowsSort: () => <IconArrowsSort className="text-black hover:text-black" />,
     IconSortAscending: () => <IconSortAscending className="text-black hover:text-black" />,
@@ -25,11 +32,16 @@ export default function DataTable<T extends MRT_RowData>(props: DataTableProps<T
   };
 
   const table = useMantineReactTable({
+    enableStickyHeader: true,
+    enableStickyFooter: true,
     mantinePaperProps: { className: classes.root },
     mantineFilterTextInputProps: {
       classNames: { input: "border-none" }
     },
-    mantineTableContainerProps: { className: "max-h-[500px] text-black" },
+    mantineTableContainerProps: {
+      ...mantineTableContainerProps,
+      ...{ className: "max-h-[500px] text-black" }
+    },
     icons,
     initialState: {
       density: "xs",
@@ -40,8 +52,11 @@ export default function DataTable<T extends MRT_RowData>(props: DataTableProps<T
       ...initialState
     },
     localization: MRT_Localization_ES,
-    mantineBottomToolbarProps: { className: "text-black" },
-    mantineFilterSelectProps: { classNames: { input: "border-none" } },
+    mantineBottomToolbarProps: { ...mantineBottomToolbarProps, ...{ className: "text-black" } },
+    mantineFilterSelectProps: {
+      ...mantineFilterSelectProps,
+      ...{ classNames: { input: "border-none" } }
+    },
     ...tableProps
   });
 
