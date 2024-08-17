@@ -8,3 +8,9 @@ export interface UserInDanger {
   alarmID: number;
   position: { lat: number; lng: number };
 }
+
+export interface UserInDangerByIncidentHierarchy {
+  incidentTypeHierarchyID: number;
+  incidentTypeHierarchyName: string;
+  usersInDanger: UserInDanger[];
+}
