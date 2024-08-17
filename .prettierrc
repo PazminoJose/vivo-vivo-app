@@ -2,5 +2,6 @@
   "plugins": ["prettier-plugin-tailwindcss"],
   "tailwindFunctions": ["clsx"],
   "trailingComma": "none",
-  "printWidth": 105
+  "printWidth": 105,
+  "bracketSpacing": true
 }
