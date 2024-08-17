@@ -1,4 +1,5 @@
 import API from "@/lib/axios/api";
+import { IncidentTypeHierarchy } from "@/models/incident-type-hierarchy";
 import { modals } from "@mantine/modals";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
@@ -8,8 +9,8 @@ import { INCIDENTS_TYPE_HIERARCHY_QUERY_KEY } from "./getIncidentTypesHierarchy.
 export async function putIncidentTypeHierarchy(
   incidentTypeHierarchySchema: IncidentTypeHierarchySchema
 ) {
-  const url = "/incident-type-hierarchy";
-  const res = await API.patch<IncidentTypeHierarchy>({ url, data: incidentTypeHierarchySchema });
+  const url = `/incident-type-hierarchy/${incidentTypeHierarchySchema.incidentTypeHierarchyID}`;
+  const res = await API.put<IncidentTypeHierarchy>({ url, data: incidentTypeHierarchySchema });
   return res;
 }
 

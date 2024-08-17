@@ -1,4 +1,5 @@
 import API from "@/lib/axios/api";
+import { IncidentTypeHierarchy } from "@/models/incident-type-hierarchy";
 import { modals } from "@mantine/modals";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";

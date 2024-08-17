@@ -1,3 +1,4 @@
+import { IncidentTypeHierarchy } from "@/models/incident-type-hierarchy";
 import { MRT_ColumnDef } from "mantine-react-table";
 import { useMemo } from "react";
 

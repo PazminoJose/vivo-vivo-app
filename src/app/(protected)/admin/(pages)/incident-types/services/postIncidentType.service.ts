@@ -6,9 +6,9 @@ import { toast } from "sonner";
 import { IncidentTypeSchema } from "../components/FormIncidentType/formIncidentTypeSchema";
 import { INCIDENTS_TYPE_QUERY_KEY } from "./getIncidentTypes.service";
 
-export async function postIncidentTypeService(incidentType: IncidentTypeSchema) {
+export async function postIncidentTypeService(incidentTypeSchema: IncidentTypeSchema) {
   const url = "/incident-type";
-  const res = await API.post<IncidentType>({ url, data: incidentType });
+  const res = await API.post<IncidentType>({ url, data: incidentTypeSchema });
   return res;
 }
 

@@ -15,6 +15,8 @@ interface FormIncidentTypeProps {
 }
 
 export default function FormIncidentType({ initialValues }: FormIncidentTypeProps) {
+  console.log({ initialValues });
+
   const form = useForm({
     initialValues: initialValues || incidentTypeInitialValues,
     validate: zodResolver(incidentTypeSchema)
@@ -47,7 +49,7 @@ export default function FormIncidentType({ initialValues }: FormIncidentTypeProp
         accessorValue="incidentTypeHierarchyID"
         placeholder="Seleccione el estado"
         data={incidentTypesHierarchy ?? []}
-        {...form.getInputProps("incidentTypesHierarchyID")}
+        {...form.getInputProps("incidentTypeHierarchyID")}
       />
       <DataSelect
         label="Estado"

@@ -1,5 +1,6 @@
 "use client";
 import DataTable from "@/components/DataTable/DataTable";
+import { IncidentTypeHierarchy } from "@/models/incident-type-hierarchy";
 import { ActionIcon, Button, Menu } from "@mantine/core";
 import { modals } from "@mantine/modals";
 import { IconCircle, IconCircleOff, IconDots, IconEdit, IconPlus } from "@tabler/icons-react";
@@ -15,8 +16,10 @@ export default function IncidentTypesHierarchyTable() {
   const { mutateAsync: toggleIncidentTypeHierarchyStatusMutation } =
     usePatchToggleIncidentTypeHierarchyState();
 
-  const handleToggleIncidentTypeStatus = async (incidentType: IncidentTypeHierarchy) => {
-    const { incidentTypeHierarchyID, state, incidentTypeHierarchyName } = incidentType;
+  const handleToggleIncidentTypeHierarchyStatus = async (
+    incidentTypeHierarchy: IncidentTypeHierarchy
+  ) => {
+    const { incidentTypeHierarchyID, state, incidentTypeHierarchyName } = incidentTypeHierarchy;
     modals.openConfirmModal({
       title: "Confirmar",
       children: `¿Está seguro que desea ${state === 0 ? "habilitar" : "deshabilitar"} la jerarquía ${incidentTypeHierarchyName}?`,
@@ -28,7 +31,7 @@ export default function IncidentTypesHierarchyTable() {
 
   const handleOpenFormIncidenTypes = (incidentTypeHierarchy?: IncidentTypeHierarchy) => {
     modals.open({
-      title: "Editar tipo de incidente",
+      title: incidentTypeHierarchy ? "Editar jerarquía" : "Crear jerarquía",
       children: <FormIncidentTypeHierarchy initialValues={incidentTypeHierarchy} />
     });
   };
@@ -61,7 +64,7 @@ export default function IncidentTypesHierarchyTable() {
                 </Menu.Item>
                 <Menu.Item
                   leftSection={isDisabled ? <IconCircle /> : <IconCircleOff />}
-                  onClick={async () => handleToggleIncidentTypeStatus(row.original)}
+                  onClick={async () => handleToggleIncidentTypeHierarchyStatus(row.original)}
                 >
                   {isDisabled ? "Habilitar" : "Deshabilitar"}
                 </Menu.Item>

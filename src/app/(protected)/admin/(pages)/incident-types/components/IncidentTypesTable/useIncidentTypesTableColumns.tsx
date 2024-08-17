@@ -14,6 +14,10 @@ export function useIncidentTypesTableColumns() {
         header: "Descripción"
       },
       {
+        accessorKey: "incidentTypeHierarchyName",
+        header: "Jerarquía"
+      },
+      {
         id: "state",
         accessorFn: (incidentType) => (incidentType.state === 1 ? "Activo" : "Inactivo"),
         header: "Estado",
