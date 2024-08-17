@@ -21,14 +21,12 @@ export default function HeatMap() {
   });
 
   return (
-    <Map defaultCenter={defaultCenter} streetViewControl={false}>
+    <Map defaultCenter={defaultCenter} defaultZoom={12} streetViewControl={false}>
       <IncidentTypeSelectorControl />
       <IncidentsIndicatorControl heatMapData={heatMapData ?? []} />
-      {heatMapData &&
-        heatMapData.length > 0 &&
-        heatMapData.map((value) => (
-          <HeatMapLayer key={value.incidentTypeID} points={value.points} gradient={value.gradient} />
-        ))}
+      {heatMapData && heatMapData.length > 0 && (
+        <HeatMapLayer points={heatMapData.flatMap((hmd) => hmd.points)} />
+      )}
     </Map>
   );
 }

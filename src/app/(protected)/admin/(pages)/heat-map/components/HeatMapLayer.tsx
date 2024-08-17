@@ -4,7 +4,7 @@ import { useEffect } from "react";
 
 interface HeatMapLayerProps {
   points: Array<number[]>;
-  gradient: string[];
+  gradient?: string[];
 }
 
 export default function HeatMapLayer({ points, gradient }: HeatMapLayerProps) {
@@ -16,13 +16,13 @@ export default function HeatMapLayer({ points, gradient }: HeatMapLayerProps) {
     const latLngPoints = points.map((point) => new google.maps.LatLng(point[0], point[1]));
     const heatMap = new visualization.HeatmapLayer({
       data: latLngPoints,
-      gradient,
-      radius: 10
+      radius: 30,
+      maxIntensity: 20
     });
     heatMap.setMap(map);
     return () => {
       heatMap.setMap(null);
     };
-  }, [map, points, visualization, gradient]);
+  }, [map, points, visualization]);
   return <></>;
 }
