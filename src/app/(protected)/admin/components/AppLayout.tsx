@@ -1,5 +1,5 @@
 "use client";
-import ConfigMenu from "@/components/ConfigMenu";
+import ConfigMenu from "@/app/(protected)/admin/components/ConfigMenu";
 import { AppShell, Burger, Group, Text } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import { useSession } from "next-auth/react";
@@ -39,7 +39,7 @@ export default function AppLayout({ children }: AppLayoutProps) {
           </div>
         </Group>
       </AppShell.Header>
-      <AppShell.Navbar p="md" className=" bg-primary-900">
+      <AppShell.Navbar p="md" className="bg-primary-900">
         <Group>
           <Burger opened={opened} onClick={toggle} hiddenFrom="md" size="sm" color="white" />
           <img src="/vivo-vivo.svg" className="sm:mx-auto sm:w-28" alt="vivo vivo logo" />
