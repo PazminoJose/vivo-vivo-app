@@ -1,34 +1,35 @@
 "use client";
 import DataTable from "@/components/DataTable/DataTable";
-import { IncidentType } from "@/models/incident-type";
 import { ActionIcon, Button, Menu } from "@mantine/core";
 import { modals } from "@mantine/modals";
 import { IconCircle, IconCircleOff, IconDots, IconEdit, IconPlus } from "@tabler/icons-react";
-import { useGetIncidentTypes, usePatchToggleIncidentTypeState } from "../../services";
-import FormIncidentType from "../FormIncidentType/FormIncidentType";
-import { useIncidentTypesTableColumns } from "./useIncidentTypesTableColumns";
+import { useGetIncidentTypesHierarchy } from "../../services/getIncidentTypesHierarchy.service";
+import { usePatchToggleIncidentTypeHierarchyState } from "../../services/patchToggleIncidentTypeHierarchyState.service";
+import FormIncidentTypeHierarchy from "../FormIncidentTypeHierarchy/FormIncidentTypeHierarchy";
+import { useIncidentTypesHierarchyTableColumns } from "./useIncidentTypesHierarchyTableColumns";
 
-export default function IncidentTypesTable() {
-  const { data: incidentTypes, isLoading } = useGetIncidentTypes();
-  const columns = useIncidentTypesTableColumns();
+export default function IncidentTypesHierarchyTable() {
+  const { data: incidentTypesHierarchy, isLoading } = useGetIncidentTypesHierarchy();
+  const columns = useIncidentTypesHierarchyTableColumns();
 
-  const { mutateAsync: toggleIncidentTypeStatusMutation } = usePatchToggleIncidentTypeState();
+  const { mutateAsync: toggleIncidentTypeHierarchyStatusMutation } =
+    usePatchToggleIncidentTypeHierarchyState();
 
-  const handleToggleIncidentTypeStatus = async (incidentType: IncidentType) => {
-    const { incidentTypeID, state, incidentTypeName } = incidentType;
+  const handleToggleIncidentTypeStatus = async (incidentType: IncidentTypeHierarchy) => {
+    const { incidentTypeHierarchyID, state, incidentTypeHierarchyName } = incidentType;
     modals.openConfirmModal({
       title: "Confirmar",
-      children: `¿Está seguro que desea ${state === 0 ? "habilitar" : "deshabilitar"} el tipo de incidente ${incidentTypeName}?`,
+      children: `¿Está seguro que desea ${state === 0 ? "habilitar" : "deshabilitar"} la jerarquía ${incidentTypeHierarchyName}?`,
       onConfirm: () => {
-        toggleIncidentTypeStatusMutation(incidentTypeID);
+        toggleIncidentTypeHierarchyStatusMutation(incidentTypeHierarchyID);
       }
     });
   };
 
-  const handleOpenFormIncidenTypes = (incidentType?: IncidentType) => {
+  const handleOpenFormIncidenTypes = (incidentTypeHierarchy?: IncidentTypeHierarchy) => {
     modals.open({
       title: "Editar tipo de incidente",
-      children: <FormIncidentType initialValues={incidentType} />
+      children: <FormIncidentTypeHierarchy initialValues={incidentTypeHierarchy} />
     });
   };
 
@@ -74,7 +75,7 @@ export default function IncidentTypesTable() {
           </Button>
         )}
         state={{ isLoading }}
-        data={incidentTypes ?? []}
+        data={incidentTypesHierarchy ?? []}
         columns={columns}
       />
     </div>

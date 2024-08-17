@@ -3,6 +3,7 @@ import { STATE_DATA } from "@/constants/state-data";
 import { Button, TextInput } from "@mantine/core";
 import { useForm, zodResolver } from "@mantine/form";
 import { usePostIncidentType, usePutIncidentType } from "../../services";
+import { useGetIncidentTypesHierarchy } from "../../services/getIncidentTypesHierarchy.service";
 import {
   IncidentTypeSchema,
   incidentTypeInitialValues,
@@ -18,6 +19,8 @@ export default function FormIncidentType({ initialValues }: FormIncidentTypeProp
     initialValues: initialValues || incidentTypeInitialValues,
     validate: zodResolver(incidentTypeSchema)
   });
+
+  const { data: incidentTypesHierarchy } = useGetIncidentTypesHierarchy(1);
 
   const { mutate: createIncidentTypeMutation, isPending: isPendingCreate } = usePostIncidentType();
   const { mutate: editIncidentTypeMutation, isPending: isPendingEdit } = usePutIncidentType();
@@ -37,6 +40,14 @@ export default function FormIncidentType({ initialValues }: FormIncidentTypeProp
         label="Descripción"
         placeholder="Descripción del tipo de incidente"
         {...form.getInputProps("incidentTypeDesc")}
+      />
+      <DataSelect
+        label="Jerarquía"
+        accessorLabel="incidentTypeHierarchyName"
+        accessorValue="incidentTypeHierarchyID"
+        placeholder="Seleccione el estado"
+        data={incidentTypesHierarchy ?? []}
+        {...form.getInputProps("incidentTypesHierarchyID")}
       />
       <DataSelect
         label="Estado"

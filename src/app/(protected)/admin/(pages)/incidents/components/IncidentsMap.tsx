@@ -12,7 +12,7 @@ import { Polygon } from "../../zones/components/Polygon";
 import { useGetZones } from "../../zones/services/getZones.service";
 import { SOCKET_SUSCRIBE_EVENTS } from "../events/socket.event";
 import { POLICE_LOCATION_QUERY_KEY } from "../services/getPoliceLocation.service";
-import { USERS_IN_DANGER_QUERY_KEY } from "../services/getUsersInDanger.service";
+import { USERS_IN_DANGER_QUERY_KEY } from "../services/getUsersInDangerByIncidentTypeHierarchy.service";
 import PoliceMarkers from "./../components/PoliceMarkers";
 import UserInDangerMarkers from "./../components/UserInDangerMarkers";
 import UsersInDangerControl from "./../components/UsersInDangerControl";

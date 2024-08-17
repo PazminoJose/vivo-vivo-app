@@ -3,7 +3,7 @@ import { IncidentTypeData } from "@/models/incident-type";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
 import { INCIDENTS_TYPE_DATA_QUERY_KEY } from "./getIncidentsTypeData.service";
-import { USERS_IN_DANGER_QUERY_KEY } from "./getUsersInDanger.service";
+import { USERS_IN_DANGER_QUERY_KEY } from "./getUsersInDangerByIncidentTypeHierarchy.service";
 
 interface PatchAlarmServiceParams {
   alarmID: number;
