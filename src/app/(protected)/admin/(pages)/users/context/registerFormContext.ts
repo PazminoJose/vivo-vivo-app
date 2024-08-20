@@ -8,7 +8,8 @@ export const registerSchema = z
     user: z.object({
       userID: z.number().optional(),
       email: z.string().email("El correo electrónico no es válido"),
-      password: z.string().min(8, "La contraseña debe tener al menos 8 caracteres")
+      password: z.string().min(8, "La contraseña debe tener al menos 8 caracteres"),
+      isAcceptedTerms: z.number()
     }),
     person: z.object({
       personID: z.number().optional(),
@@ -54,7 +55,8 @@ export const registerSchema = z
 export const registerInitialValues: RegisterSchema = {
   user: {
     email: "",
-    password: ""
+    password: "",
+    isAcceptedTerms: 1
   },
   person: {
     firstName: "",
