@@ -4,7 +4,7 @@ import { useQuery } from "@tanstack/react-query";
 
 export async function getUsersService() {
   const url = "/user";
-  const res = await API.get<any[]>({ url });
+  const res = await API.get<User[]>({ url });
   return res;
 }
 
