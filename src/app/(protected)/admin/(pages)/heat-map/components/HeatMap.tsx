@@ -12,7 +12,6 @@ export default function HeatMap() {
     () => ({ lat: -1.253351, lng: -78.623011 }),
     []
   );
-  // const [points, setPoints] = useState<google.maps.LatLng[]>([]);
   const { alarmStatusID, incidentTypesIds, dateRange } = useHeatMapContext();
   const { data: heatMapData } = useGetPoints({
     alarmStatusID,
