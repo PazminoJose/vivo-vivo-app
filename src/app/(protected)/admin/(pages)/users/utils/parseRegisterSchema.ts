@@ -11,7 +11,8 @@ export async function parseRegisterSchema(user: User): Promise<RegisterSchema> {
     user: {
       userID: user.userID,
       email: user.email,
-      password: "********"
+      password: "********",
+      isAcceptedTerms: user.isAcceptedTerms
     },
     person: {
       personID: user.person.personID,
