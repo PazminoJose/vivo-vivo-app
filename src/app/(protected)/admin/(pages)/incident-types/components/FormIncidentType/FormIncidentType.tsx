@@ -15,9 +15,8 @@ interface FormIncidentTypeProps {
 }
 
 export default function FormIncidentType({ initialValues }: FormIncidentTypeProps) {
-  console.log({ initialValues });
-
   const form = useForm({
+    mode: "uncontrolled",
     initialValues: initialValues || incidentTypeInitialValues,
     validate: zodResolver(incidentTypeSchema)
   });
