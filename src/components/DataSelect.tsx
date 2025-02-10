@@ -5,7 +5,7 @@ interface DataSelectProps<T> extends Omit<SelectProps, "value" | "onChange" | "d
   onChange?: (value: number) => void;
   data: T[];
   defaultLabel?: string;
-  defaultValue?: string;
+  defaultOptionValue?: string;
   accessorLabel: keyof T;
   accessorValue: keyof T;
 }
@@ -17,17 +17,18 @@ export default function DataSelect<T>(props: DataSelectProps<T>) {
     data,
     accessorLabel,
     accessorValue,
+    defaultOptionValue = "-1",
+    defaultValue,
     defaultLabel = "Seleccione una opción",
-    defaultValue = "-1",
     ...otherProps
   } = props;
 
   return (
     <Select
-      value={value?.toString()}
+      value={value?.toString() ?? defaultValue?.toString() ?? defaultOptionValue.toString()}
       onChange={(value) => onChange?.(Number(value) || 0)}
       data={[
-        { label: defaultLabel, value: defaultValue, disabled: true },
+        { label: defaultLabel, value: defaultOptionValue, disabled: true },
         ...data.map((d) => ({
           label: d[accessorLabel] as string,
           value: (d[accessorValue] as number).toString()
