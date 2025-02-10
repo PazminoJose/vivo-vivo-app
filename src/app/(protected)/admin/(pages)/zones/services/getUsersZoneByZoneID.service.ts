@@ -13,8 +13,6 @@ export const USERS_ZONE_QUERY_KEY = "user-zone";
 export const useGetUsersZoneByZoneID = (zoneID: number) => {
   return useQuery<UserZoneData[]>({
     queryKey: [USERS_ZONE_QUERY_KEY, zoneID],
-    queryFn: () => getZoneServiceByZoneID(zoneID),
-    refetchOnWindowFocus: true,
-    refetchOnMount: true
+    queryFn: () => getZoneServiceByZoneID(zoneID)
   });
 };

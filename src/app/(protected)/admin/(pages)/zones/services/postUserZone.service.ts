@@ -15,7 +15,7 @@ export const usePostUserZone = () => {
   return useMutation({
     mutationFn: postUserZoneService,
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: [USERS_ZONE_QUERY_KEY] });
+      queryClient.invalidateQueries({ queryKey: [USERS_ZONE_QUERY_KEY], refetchType: "all" });
       toast.success("Oficial asignado correctamente");
     }
   });
