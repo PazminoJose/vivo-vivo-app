@@ -1,4 +1,5 @@
 import { IMG_URL } from "@/constants/constants";
+import { PoliceLocation } from "@/models/police-location.model";
 import { Avatar, Card } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import { AdvancedMarker, InfoWindow, useAdvancedMarkerRef } from "@vis.gl/react-google-maps";
@@ -13,16 +14,18 @@ export default function PoliceMarkers() {
 
   const { data: policeLocation } = useGetPoliceLocation();
 
+  const handleOnClickMarker = (pl: PoliceLocation) => {
+    setSelectedPoliceLocation(pl);
+    openInfoWindow();
+  };
+
   return (
     <>
-      {policeLocation?.map((pl) => {
+      {policeLocation?.map((pl: PoliceLocation) => {
         return (
           <AdvancedMarker
             ref={selectedPoliceLocation?.policeID === pl.policeID ? markerRef : undefined}
-            onClick={() => {
-              setSelectedPoliceLocation(pl);
-              openInfoWindow();
-            }}
+            onClick={() => handleOnClickMarker(pl)}
             key={pl.policeID}
             position={{ lat: pl.position[0], lng: pl.position[1] }}
           >
