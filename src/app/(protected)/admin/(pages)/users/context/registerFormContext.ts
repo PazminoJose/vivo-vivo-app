@@ -20,7 +20,7 @@ export const registerSchema = z
       avatar: z
         .instanceof(File)
         .nullable()
-        .refine((file) => file != null, "La imagen es requerida")
+        .refine((file) => file != null ?true:false, "La imagen es requerida")
     }),
     personInfo: z.object({
       personID: z.number().optional(),
