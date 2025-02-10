@@ -15,7 +15,7 @@ export const useDeleteUserZone = () => {
   return useMutation({
     mutationFn: deleteUserZoneService,
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: [USERS_ZONE_QUERY_KEY] });
+      queryClient.invalidateQueries({ queryKey: [USERS_ZONE_QUERY_KEY], refetchType: "all" });
       toast.success("Oficial eliminado correctamente");
     }
   });
