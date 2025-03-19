@@ -1,7 +1,6 @@
 module.exports = {
   plugins: {
-    'tailwindcss/nesting': {},
-    tailwindcss: {},
+    "@tailwindcss/postcss": {},
     autoprefixer: {},
     'postcss-preset-mantine': {},
     'postcss-simple-vars': {
