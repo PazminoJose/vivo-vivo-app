@@ -1,10 +1,29 @@
-@layer tailwind {
-  @tailwind base;
+@layer theme, base, mantine, components, utilities;
+
+@import "tailwindcss";
+
+@import "@mantine/core/styles.layer.css";
+@import "mantine-contextmenu/styles.layer.css";
+@import "@mantine/dates/styles.css";
+@import "mantine-react-table/styles.css";
+
+@theme {
+  --color-primary-50: #f9fafb;
+  --color-primary-100: #f3f4f6;
+  --color-primary-200: #e5e7eb;
+  --color-primary-300: #d1d5db;
+  --color-primary-400: #9ca3af;
+  --color-primary-500: #6b7280;
+  --color-primary-600: #4b5563;
+  --color-primary-700: #374151;
+  --color-primary-800: #1f2937;
+  --color-primary-900: #111827;
+  --color-primary-950: #030712;
+
+  --color-gradient: rgb(9, 39, 121);
+
+  --breakpoint-xs: 576px;
 }
-
-@tailwind components;
-@tailwind utilities;
-
 html,
 body {
   height: 100%;

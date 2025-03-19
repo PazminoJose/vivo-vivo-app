@@ -1,8 +1,6 @@
 import Providers from "@/providers/Providers";
-import { ColorSchemeScript } from "@mantine/core";
-import "@mantine/core/styles.css";
-import "@mantine/dates/styles.css";
-import "mantine-react-table/styles.css";
+import { ColorSchemeScript, mantineHtmlProps } from "@mantine/core";
+
 import type { Metadata } from "next";
 import "./globals.css";
 
@@ -13,7 +11,7 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="es">
+    <html lang="es" {...mantineHtmlProps}>
       <head>
         <ColorSchemeScript />
       </head>

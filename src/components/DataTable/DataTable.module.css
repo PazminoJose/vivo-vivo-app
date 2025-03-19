@@ -1,11 +1,10 @@
-@tailwind components;
-@layer components {
-  .root {
-    --mrt-base-background-color: theme("colors.primary.300");
-    --mrt-row-hover-background-color: theme("colors.primary.200");
-    --mrt-striped-row-background-color: theme("colors.primary.200");
-  }
-  .filterInput {
-    --mrt-filter-input-background-color: theme("colors.primary.600");
-  }
+@reference "../../app/globals.css";
+
+@utility root {
+  --mrt-base-background-color: var(--color-primary-300);
+  --mrt-row-hover-background-color: var(--color-primary-200);
+  --mrt-striped-row-background-color: var(--color-primary-200);
+}
+@utility filterInput {
+  --mrt-filter-input-background-color: var(--color-primary-600);
 }

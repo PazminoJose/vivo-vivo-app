@@ -1,18 +1,17 @@
-@tailwind components;
-@layer components {
-  .button {
-    &[data-variant="primary"] {
-      @apply bg-primary-600 transition-colors duration-300 hover:bg-primary-700;
-    }
+@reference "../app/globals.css";
+
+@utility button {
+  &[data-variant="primary"] {
+    @apply bg-primary-600 hover:bg-primary-700 transition-colors duration-300;
   }
-  .actionIcon {
-    &[data-variant="primary"] {
-      @apply h-9 w-9 transition-colors duration-300;
-    }
+}
+@utility actionIcon {
+  &[data-variant="primary"] {
+    @apply h-9 w-9 transition-colors duration-300;
   }
-  .hasError {
-    &[data-error="true"] {
-      @apply border-red-400;
-    }
+}
+@utility hasError {
+  &[data-error="true"] {
+    @apply border-red-400;
   }
 }
