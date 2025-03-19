@@ -16,60 +16,61 @@ import { modals } from "@mantine/modals";
 import { IconUserX } from "@tabler/icons-react";
 import { useState } from "react";
 import { useDeleteUserZone } from "../../services/deleteUserZode.service";
-import { getPoliceHasActiveZoneService } from "../../services/getPoliceHasActiveZone.service";
-import { useGetUserRoleDataByPoliceRole } from "../../services/getUserRoleDataByPoliceRole.service";
+import { useGetUserRoleDataByWatchmanRole } from "../../services/getUserRoleDataByWatchmanRole.service";
 import { useGetUsersZoneByZoneID } from "../../services/getUsersZoneByZoneID.service";
+import { getWatchmanHasActiveZoneService } from "../../services/getWatchmanHasActiveZone.service";
 import { usePostUserZone } from "../../services/postUserZone.service";
-import useAssignPoliceTableColumns from "./useAssignPoliceTableColumns";
+import useAssignWatchmanTableColumns from "./useAssignWatchmanTableColumns";
 
 interface UserZoneTableProps {
   zoneID: number;
 }
 
-export default function AssignPoliceTable({ zoneID }: UserZoneTableProps) {
-  const [policeAutocompleteData, setPoliceAutocompleteData] = useState<string[]>([]);
-  const [policeData, setPoliceData] = useState<Record<string, UserRoleData> | null>(null);
-  const [selectedPolice, setSelectedPolice] = useState<UserRoleData | null>(null);
+export default function AssignWatchmanTable({ zoneID }: UserZoneTableProps) {
+  const [watchmanAutocompleteData, setWatchmanAutocompleteData] = useState<string[]>([]);
+  const [watchmanData, setWatchmanData] = useState<Record<string, UserRoleData> | null>(null);
+  const [selectedWatchman, setSelectedWatchman] = useState<UserRoleData | null>(null);
   const [autocompleteValue, setAutocompleteValue] = useState<string>("");
 
   // Query
   const { data: usersZone, isLoading } = useGetUsersZoneByZoneID(zoneID);
 
-  const columns = useAssignPoliceTableColumns();
+  const columns = useAssignWatchmanTableColumns();
 
-  const { data: policeUserRole } = useGetUserRoleDataByPoliceRole();
+  const { data: watchmanUserRole } = useGetUserRoleDataByWatchmanRole();
+
   // Mutation
-  const { mutate: assignPoliceToZone, isPending: isPendingAssignPolice } = usePostUserZone();
+  const { mutate: assignWatchmanToZone, isPending: isPendingAssignWatchman } = usePostUserZone();
   const { mutate: deleteUserZoneMutation } = useDeleteUserZone();
 
   // Handlers
-  const handlePoliceChange = (value: string) => {
-    if (!policeUserRole) return;
+  const handleWatchmanChange = (value: string) => {
+    if (!watchmanUserRole) return;
     setAutocompleteValue(value);
-    const police = policeUserRole[value];
-    if (police) setSelectedPolice(police);
-    else setSelectedPolice(null);
+    const watchman = watchmanUserRole[value];
+    if (watchman) setSelectedWatchman(watchman);
+    else setSelectedWatchman(null);
   };
 
-  const handleConfirmAssignPolice = () => {
-    if (selectedPolice === null) return;
-    assignPoliceToZone({ userID: selectedPolice.userID, zoneID });
-    setSelectedPolice(null);
+  const handleConfirmAssignWatchman = () => {
+    if (selectedWatchman === null) return;
+    assignWatchmanToZone({ userID: selectedWatchman.userID, zoneID });
+    setSelectedWatchman(null);
     setAutocompleteValue("");
   };
 
-  const handleAssignPoliceToZone = async () => {
-    if (selectedPolice === null) return;
-    const hasActiveZone = await getPoliceHasActiveZoneService(selectedPolice.userID);
+  const handleAssignWatchmanToZone = async () => {
+    if (selectedWatchman === null) return;
+    const hasActiveZone = await getWatchmanHasActiveZoneService(selectedWatchman.userID);
     if (hasActiveZone) {
       modals.openConfirmModal({
         title: "Confirmar",
         centered: true,
-        children: "El policía seleccionado ya tiene una zona activa, ¿desea reasignarla?",
-        onConfirm: handleConfirmAssignPolice
+        children: "El vigilante seleccionado ya tiene una zona activa, ¿desea reasignarla?",
+        onConfirm: handleConfirmAssignWatchman
       });
     } else {
-      handleConfirmAssignPolice();
+      handleConfirmAssignWatchman();
     }
   };
 
@@ -77,15 +78,15 @@ export default function AssignPoliceTable({ zoneID }: UserZoneTableProps) {
     modals.openConfirmModal({
       title: "Confirmar",
       centered: true,
-      children: "¿Está seguro de eliminar el policía de la zona?",
+      children: "¿Está seguro de eliminar el watchman de la zona?",
       onConfirm: () => deleteUserZoneMutation(userZoneID)
     });
   };
 
   const renderAutocompleteOption: AutocompleteProps["renderOption"] = ({ option }) =>
-    policeUserRole && (
+    watchmanUserRole && (
       <Group gap="sm">
-        <Avatar src={`${IMG_URL}/${policeUserRole[option.value].avatar}`} size={36} radius="xl" />
+        <Avatar src={`${IMG_URL}/${watchmanUserRole[option.value].avatar}`} size={36} radius="xl" />
         <div>
           <Text size="sm">{option.value}</Text>
         </div>
@@ -94,6 +95,11 @@ export default function AssignPoliceTable({ zoneID }: UserZoneTableProps) {
 
   return (
     <DataTable
+      initialState={{
+        showGlobalFilter: false
+      }}
+      columns={columns}
+      data={usersZone ?? []}
       state={{ isLoading }}
       mantineTableContainerProps={{ className: "max-h-[400px]" }}
       enableColumnPinning
@@ -102,15 +108,15 @@ export default function AssignPoliceTable({ zoneID }: UserZoneTableProps) {
           <Autocomplete
             className="w-96"
             value={autocompleteValue}
-            data={Object.keys(policeUserRole ?? {})}
+            data={Object.keys(watchmanUserRole ?? {})}
             renderOption={renderAutocompleteOption}
-            placeholder="Buscar policía"
-            onChange={handlePoliceChange}
+            placeholder="Buscar vigilante"
+            onChange={handleWatchmanChange}
           />
           <Button
-            loading={isPendingAssignPolice}
-            disabled={selectedPolice === null}
-            onClick={handleAssignPoliceToZone}
+            loading={isPendingAssignWatchman}
+            disabled={selectedWatchman === null}
+            onClick={handleAssignWatchmanToZone}
           >
             Asignar
           </Button>
@@ -125,11 +131,6 @@ export default function AssignPoliceTable({ zoneID }: UserZoneTableProps) {
           </Tooltip>
         </ActionIcon>
       )}
-      initialState={{
-        showGlobalFilter: false
-      }}
-      columns={columns}
-      data={usersZone ?? []}
     />
   );
 }

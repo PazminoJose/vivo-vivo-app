@@ -7,6 +7,7 @@ export interface UserInDanger {
   incidentTypeName: string | null;
   alarmID: number;
   position: { lat: number; lng: number };
+  closestVigilancePointName: string;
 }
 
 export interface UserInDangerByIncidentHierarchy {

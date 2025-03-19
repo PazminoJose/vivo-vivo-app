@@ -5,7 +5,6 @@ import { Autocomplete, Avatar, Button, Card, Menu } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import { IconInfoCircle, IconLocation } from "@tabler/icons-react";
 import { useMap } from "@vis.gl/react-google-maps";
-import Link from "next/link";
 import { useEffect, useState } from "react";
 import { useGetIncidentsTypeData } from "../services/getIncidentsTypeData.service";
 import { usePatchAlarm } from "../services/patchAlarm.service";
@@ -66,9 +65,18 @@ export default function UserInDangerCard({ userInDanger: user }: UserInDangerCar
             src={`${IMG_URL}/${user.avatar}`}
           />
           <div className="flex flex-col">
-            <p className="font-bold">Nombre: {user?.fullName}.</p>
-            <p className="font-bold">Teléfono: {user?.phone}.</p>
-            <p className="font-bold">Cédula: {user?.dni}.</p>
+            <p className="font-bold">
+              Nombre: <span className="font-normal">{user?.fullName}</span>.
+            </p>
+            <p className="font-bold">
+              Teléfono: <span className="font-normal">{user?.phone}</span>. .
+            </p>
+            <p className="font-bold">
+              Cédula: <span className="font-normal">{user?.dni}</span>. .
+            </p>
+            <p className="font-bold">
+              Punto de vigilancia más cercano: <span className="font-normal">{user?.closestVigilancePointName}</span>.
+            </p>
           </div>
         </div>
         <Menu position="left" opened={openedMenu} closeOnItemClick={false} closeOnClickOutside={false}>
@@ -104,8 +112,6 @@ export default function UserInDangerCard({ userInDanger: user }: UserInDangerCar
           onClick={() => {
             handleClickViewUserInDanger(user);
           }}
-          component={Link}
-          href={`/admin/incidents?userID=${user.userID}`}
         >
           Ver en el mapa
         </Button>

@@ -37,15 +37,15 @@ export default function useUserTableColumns() {
             { label: "Admin", value: "ADMIN" },
             { label: "Super Administrador", value: "SUPER_ADMIN" },
             { label: "User", value: "USER" },
-            { label: "Policía", value: "POLICE" },
+            { label: "Vigilante", value: "VIGILANTE" },
             { label: "Médico", value: "MEDIC" }
           ]
-        },
-        filterFn: (row, id, filterValue) => {
-          if (filterValue.length === 0) return true;
-          const roles = row.original.userRole.map((r) => r.role.roleName);
-          return roles.some((role) => role === filterValue);
         }
+        // filterFn: (row, id, filterValue) => {
+        //   if (filterValue?.length === 0) return true;
+        //   const roles = row.original.userRole.map((r) => r.role.roleName);
+        //   return roles.some((role) => role === filterValue);
+        // }
       },
       {
         id: "state",
@@ -57,11 +57,11 @@ export default function useUserTableColumns() {
             { label: "Activo", value: "Activo" },
             { label: "Inactivo", value: "Inactivo" }
           ]
-        },
-        filterFn: (row, id, filterValue) => {
-          if (filterValue.length === 0) return true;
-          return row.original.state === (filterValue === "Activo" ? 1 : 0);
         }
+        // filterFn: (row, id, filterValue) => {
+        //   if (filterValue?.length === 0) return true;
+        //   return row.original.state === (filterValue === "Activo" ? 1 : 0);
+        // }
       },
       {
         accessorKey: "email",

@@ -15,8 +15,6 @@ export const usePatchToggleIncidentTypeHierarchyState = () => {
   return useMutation({
     mutationFn: patchToggleIncidentTypeHierarchyStateService,
     onSuccess: () => {
-      const cache = queryClient.getQueryCache().findAll();
-      console.log({ cache });
       queryClient.invalidateQueries({ queryKey: [INCIDENTS_TYPE_HIERARCHY_QUERY_KEY] });
       queryClient.removeQueries({ queryKey: [INCIDENTS_TYPE_HIERARCHY_QUERY_KEY, 1] });
       toast.success("El estado de la jerarquía ha sido cambiado correctamente");

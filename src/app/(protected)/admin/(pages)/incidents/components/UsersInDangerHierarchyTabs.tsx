@@ -5,9 +5,10 @@ import { useIncidentsStore } from "../store/incidents.store";
 import UserInDangerCard from "./UserInDangerCard";
 
 export default function UsersInDangerHierarchyTabs() {
-  const { data: usersInDanger } = useGetUsersInDangerByIncidentTypeHierarchy();
   const selectedUserInDanger = useIncidentsStore((store) => store.selectedUserInDanger);
   const removeSelectedUserInDanger = useIncidentsStore((store) => store.removeSelectedUserInDanger);
+
+  const { data: usersInDanger } = useGetUsersInDangerByIncidentTypeHierarchy();
 
   useEffect(() => {
     const isSelectedUserInList = usersInDanger?.some((user) =>
@@ -39,10 +40,10 @@ export default function UsersInDangerHierarchyTabs() {
           </Tabs.Tab>
         ))}
       </Tabs.List>
-      {usersInDanger?.map((u) => (
-        <Tabs.Panel key={`panel-${u.incidentTypeHierarchyID}`} value={u.incidentTypeHierarchyName}>
-          {u.usersInDanger.map((user) => (
-            <UserInDangerCard key={user.userID} userInDanger={user} />
+      {usersInDanger?.map((u, i) => (
+        <Tabs.Panel key={`panel-${u.incidentTypeHierarchyID}-${i}`} value={u.incidentTypeHierarchyName}>
+          {u.usersInDanger.map((user, index) => (
+            <UserInDangerCard key={`${user.userID}${index}`} userInDanger={user} />
           ))}
         </Tabs.Panel>
       ))}

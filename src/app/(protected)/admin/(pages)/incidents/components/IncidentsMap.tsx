@@ -1,23 +1,21 @@
 "use client";
-import { SOCKET_URL } from "@/constants/constants";
-import { Position } from "@/models/position.model";
+import { useShallowEffect } from "@mantine/hooks";
 import { useQueryClient } from "@tanstack/react-query";
 import { useSession } from "next-auth/react";
 import dynamic from "next/dynamic";
-import { useSearchParams } from "next/navigation";
-import { useEffect, useMemo } from "react";
-import { io } from "socket.io-client";
+import { useMemo } from "react";
 import GoogleMapApiProvider from "../../../providers/GoogleMapApiProvider";
+import { useSocketIOProvider } from "../../../providers/SockerIOPtovider";
 import { Polygon } from "../../zones/components/Polygon";
+import VigilancePointMarker from "../../zones/components/VigilancePointMarker";
 import { useGetZones } from "../../zones/services/getZones.service";
 import { SOCKET_SUSCRIBE_EVENTS } from "../events/socket.event";
-import { POLICE_LOCATION_QUERY_KEY } from "../services/getPoliceLocation.service";
 import { USERS_IN_DANGER_QUERY_KEY } from "../services/getUsersInDangerByIncidentTypeHierarchy.service";
-import PoliceMarkers from "./../components/PoliceMarkers";
+import { WATCHMAN_LOCATION_QUERY_KEY } from "../services/getWatchmanLocation.service";
 import UserInDangerMarkers from "./../components/UserInDangerMarkers";
 import UsersInDangerControl from "./../components/UsersInDangerControl";
 import ViewPastAlarmsControl from "./../components/ViewPastAlarmsControl";
-import { useIncidentsStore } from "./../store/incidents.store";
+import WatchmanMarkers from "./WatchmanMarkers";
 
 const DynamicMap = dynamic(() => import("../../../components/Map"), {
   ssr: false
@@ -25,9 +23,7 @@ const DynamicMap = dynamic(() => import("../../../components/Map"), {
 
 export default function IncidentsMap() {
   const { data } = useSession();
-  const params = useSearchParams();
-  const setSelectedUserInDanger = useIncidentsStore((store) => store.setSelectedUserInDanger);
-
+  const socket = useSocketIOProvider();
   const queryClient = useQueryClient();
   const { data: zones } = useGetZones(1);
 
@@ -39,33 +35,19 @@ export default function IncidentsMap() {
     []
   );
 
-  useEffect(() => {
-    const socket = io(SOCKET_URL, { query: { userID: data?.user.userID, roleName: "ADMIN" } });
+  useShallowEffect(() => {
     if (!socket) return;
     socket.on(SOCKET_SUSCRIBE_EVENTS.UPDATE_USER_STATUS, () => {
       queryClient.invalidateQueries({
         queryKey: [USERS_IN_DANGER_QUERY_KEY]
       });
     });
-    socket.on(SOCKET_SUSCRIBE_EVENTS.UPDATE_POLICE_LOCATION, () => {
+    socket.on(SOCKET_SUSCRIBE_EVENTS.UPDATE_WATCHMAN_LOCATION, () => {
       queryClient.invalidateQueries({
-        queryKey: [POLICE_LOCATION_QUERY_KEY]
+        queryKey: [WATCHMAN_LOCATION_QUERY_KEY]
       });
     });
-    const userInDangerID = params.get("userID");
-    if (userInDangerID) {
-      socket.on(
-        `${SOCKET_SUSCRIBE_EVENTS.USER_IN_DANGER}-${userInDangerID}`,
-        ({ position }: { position: Position }) => {
-          if (position == null) return;
-          setSelectedUserInDanger({ position: { lat: position.lat, lng: position.lng } });
-        }
-      );
-    }
-    return () => {
-      socket.disconnect();
-    };
-  }, [data, params]);
+  }, [socket, data]);
 
   return (
     <GoogleMapApiProvider>
@@ -77,19 +59,23 @@ export default function IncidentsMap() {
       >
         <ViewPastAlarmsControl />
         <UsersInDangerControl />
-        <PoliceMarkers />
+        <WatchmanMarkers />
         <UserInDangerMarkers />
         {zones &&
           zones.length > 0 &&
           zones.map((zone) => (
-            <Polygon
-              fillColor={zone.zoneColor}
-              strokeColor={zone.zoneColor}
-              paths={zone.polygon.map((p) => {
-                return new google.maps.LatLng(p[0], p[1]);
-              })}
-              key={zone.zoneID}
-            />
+            <div key={zone.zoneID}>
+              <Polygon
+                fillColor={zone.zoneColor}
+                strokeColor={zone.zoneColor}
+                paths={zone.polygon.map((p) => {
+                  return new google.maps.LatLng(p[0], p[1]);
+                })}
+              />
+              {zone.VigilancePoint.map((vigilancePoint, index) => (
+                <VigilancePointMarker vigilancePoint={vigilancePoint} key={index} />
+              ))}
+            </div>
           ))}
       </DynamicMap>
     </GoogleMapApiProvider>

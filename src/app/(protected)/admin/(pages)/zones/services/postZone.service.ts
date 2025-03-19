@@ -16,7 +16,7 @@ export const usePostZone = () => {
   return useMutation({
     mutationFn: postZoneService,
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: [ZONES_QUERY_KEY] });
+      queryClient.invalidateQueries({ queryKey: [ZONES_QUERY_KEY], refetchType: "all" });
       toast.success("Zona creada correctamente");
     }
   });

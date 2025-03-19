@@ -7,13 +7,12 @@ import {
   MantineReactTable,
   useMantineReactTable
 } from "mantine-react-table";
-// import { MRT_Localization_ES } from 'mantine-react-table/locales/es';
-import { useEffect } from "react";
+import { MRT_Localization_ES } from "mantine-react-table/locales/es/index.cjs";
+import { RefObject, useEffect } from "react";
 import classes from "./DataTable.module.css";
-import { MRT_Localization_ES } from "./localization";
 
 interface DataTableProps<T extends MRT_RowData> extends MRT_TableOptions<T> {
-  tableRef?: React.MutableRefObject<MRT_TableInstance<T> | null>;
+  tableRef?: RefObject<MRT_TableInstance<T> | null>;
 }
 
 export default function DataTable<T extends MRT_RowData>(props: DataTableProps<T>) {
@@ -39,8 +38,11 @@ export default function DataTable<T extends MRT_RowData>(props: DataTableProps<T
       classNames: { input: "border-none" }
     },
     mantineTableContainerProps: {
-      ...mantineTableContainerProps,
-      ...{ className: "max-h-[500px] text-black" }
+      style: {
+        maxHeight: "calc(100vh - 210px)"
+      },
+      ...{ className: "text-black max-h-[]" },
+      ...mantineTableContainerProps
     },
     icons,
     initialState: {
@@ -52,10 +54,10 @@ export default function DataTable<T extends MRT_RowData>(props: DataTableProps<T
       ...initialState
     },
     localization: MRT_Localization_ES,
-    mantineBottomToolbarProps: { ...mantineBottomToolbarProps, ...{ className: "text-black" } },
+    mantineBottomToolbarProps: { ...{ className: "text-black" }, ...mantineBottomToolbarProps },
     mantineFilterSelectProps: {
-      ...mantineFilterSelectProps,
-      ...{ classNames: { input: "border-none" } }
+      ...{ classNames: { input: "border-none" } },
+      ...mantineFilterSelectProps
     },
     ...tableProps
   });

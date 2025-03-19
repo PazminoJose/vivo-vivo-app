@@ -1,18 +1,18 @@
-import { PoliceLocation } from "@/models/police-location.model";
 import { UserInDanger } from "@/models/user-in-danger.model";
+import { WatchmanLocation } from "@/models/watchman-location.model";
 import { create } from "zustand";
 
 interface IncidentsStore {
-  selectedPoliceLocation: PoliceLocation | null;
-  setSelectedPoliceLocation: (selectedPoliceLocation: PoliceLocation | null) => void;
+  selectedWatchmanLocation: WatchmanLocation | null;
+  setSelectedWatchmanLocation: (selectedWatchmanLocation: WatchmanLocation | null) => void;
   selectedUserInDanger: Partial<UserInDanger> | null;
   setSelectedUserInDanger: (selectedUserInDanger: Partial<UserInDanger> | null) => void;
   removeSelectedUserInDanger: () => void;
 }
 
 const initialState: IncidentsStore = {
-  selectedPoliceLocation: null,
-  setSelectedPoliceLocation: () => {},
+  selectedWatchmanLocation: null,
+  setSelectedWatchmanLocation: () => {},
   selectedUserInDanger: null,
   setSelectedUserInDanger: () => {},
   removeSelectedUserInDanger: () => {}
@@ -20,7 +20,8 @@ const initialState: IncidentsStore = {
 
 export const useIncidentsStore = create<IncidentsStore>((set, get) => ({
   ...initialState,
-  setSelectedPoliceLocation: (selectedPoliceLocation) => set({ selectedPoliceLocation }),
+  setSelectedWatchmanLocation: (selectedWatchmanLocation) =>
+    set({ selectedWatchmanLocation: selectedWatchmanLocation }),
   setSelectedUserInDanger: (selectedUserInDanger) =>
     set({ selectedUserInDanger: { ...get().selectedUserInDanger, ...selectedUserInDanger } }),
   removeSelectedUserInDanger: () => set({ selectedUserInDanger: null })

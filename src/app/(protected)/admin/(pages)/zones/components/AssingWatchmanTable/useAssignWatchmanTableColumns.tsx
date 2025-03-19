@@ -1,11 +1,11 @@
 import { IMG_URL } from "@/constants/constants";
-import { UserHospitalData } from "@/models/user-hospital.model";
+import { UserZoneData } from "@/models/user-zone.module";
 import { Avatar, Box } from "@mantine/core";
 import { MRT_ColumnDef } from "mantine-react-table";
 import { useMemo } from "react";
 
-export default function useAssignMedicTableColumns() {
-  const columns = useMemo<MRT_ColumnDef<UserHospitalData>[]>(
+export default function useAssignWatchmanTableColumns() {
+  const columns = useMemo<MRT_ColumnDef<UserZoneData>[]>(
     () => [
       {
         id: "fullName",

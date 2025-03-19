@@ -51,8 +51,8 @@ export default function NavLinks({ onPathChange }: NavLinksProps) {
               href={path.href}
               leftSection={<LinkIcon />}
               className={cn(
-                " mt-2 rounded-lg hover:bg-primary-600",
-                pathname === path.href && "bg-primary-600 font-bold"
+                "hover:!bg-primary-600 mt-2 rounded-lg",
+                pathname === path.href && "!bg-primary-600 font-bold"
               )}
             />
           );

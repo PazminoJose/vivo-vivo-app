@@ -19,11 +19,11 @@ export function useIncidentTypesHierarchyTableColumns() {
             { label: "Activo", value: "Activo" },
             { label: "Inactivo", value: "Inactivo" }
           ]
-        },
-        filterFn: (row, id, filterValue) => {
-          if (filterValue.length === 0) return true;
-          return row.original.state === (filterValue === "Activo" ? 1 : 0);
         }
+        // filterFn: (row, id, filterValue) => {
+        //   if (filterValue?.length === 0) return true;
+        //   return row.original.state === (filterValue === "Activo" ? 1 : 0);
+        // }
       }
     ],
     []

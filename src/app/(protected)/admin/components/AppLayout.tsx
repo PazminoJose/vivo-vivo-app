@@ -46,8 +46,8 @@ export default function AppLayout({ children }: AppLayoutProps) {
         </Group>
         <NavLinks onPathChange={handleLinkChange} />
       </AppShell.Navbar>
-      <AppShell.Main className="flex bg-primary-900">
-        <div className="w-full">{children}</div>
+      <AppShell.Main className="bg-primary-900 flex">
+        <div className="flex w-full flex-col text-black">{children}</div>
       </AppShell.Main>
     </AppShell>
   );

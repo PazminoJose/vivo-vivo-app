@@ -7,6 +7,7 @@ import type { Ref } from "react";
 
 type PolygonEventProps = {
   onClick?: (e: google.maps.MapMouseEvent) => void;
+  onRightClick?: (e: google.maps.MapMouseEvent) => void;
   onDrag?: (path: google.maps.LatLng[]) => void;
   onDragStart?: (path: google.maps.LatLng[]) => void;
   onDragEnd?: (path: google.maps.LatLng[]) => void;
@@ -32,6 +33,7 @@ export type PolygonRef = Ref<google.maps.Polygon | null>;
 function usePolygon(props: PolygonProps) {
   const {
     onClick,
+    onRightClick,
     onDrag,
     onDragStart,
     onDragEnd,
@@ -48,6 +50,7 @@ function usePolygon(props: PolygonProps) {
   const callbacks = useRef<Record<string, (e: unknown) => void>>({});
   Object.assign(callbacks.current, {
     onClick,
+    onRightClick,
     onDrag,
     onDragStart,
     onDragEnd,
@@ -138,6 +141,7 @@ function usePolygon(props: PolygonProps) {
 
     [
       ["click", "onClick"],
+      ["rightclick", "onRightClick"],
       ["mouseover", "onMouseOver"],
       ["mouseout", "onMouseOut"]
     ].forEach(([eventName, eventCallback]) => {
