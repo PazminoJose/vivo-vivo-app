@@ -15,6 +15,7 @@ import FormVigilancePoint from "./FormVigilancePoints/FormVigilancePoint";
 interface VigilancePointMarkerProps extends AdvancedMarkerProps {
   vigilancePoint: VigilancePoint;
   onPositionChange?: (path: google.maps.LatLng) => void;
+  defaultOpened?: boolean;
   onRemove?: () => void;
   onSave?: () => void;
   onEdit?: () => void;
@@ -22,6 +23,7 @@ interface VigilancePointMarkerProps extends AdvancedMarkerProps {
 
 export default function VigilancePointMarker({
   vigilancePoint,
+  defaultOpened = true,
   onPositionChange,
   onRemove,
   ...props
@@ -29,7 +31,7 @@ export default function VigilancePointMarker({
   // State
   const [isDraggingMarker, setIsDraggingMarker] = useState(false);
   const [markerRef, marker] = useAdvancedMarkerRef();
-  const [opened, { toggle, close }] = useDisclosure(true);
+  const [opened, { toggle, close }] = useDisclosure(defaultOpened);
   // Store
   const isAddingOrEditingVigilancePoint = useZoneControlStore(
     (state) => state.isAddingOrEditingVigilancePoint

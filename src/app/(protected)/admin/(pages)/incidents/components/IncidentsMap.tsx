@@ -73,7 +73,11 @@ export default function IncidentsMap() {
                 })}
               />
               {zone.VigilancePoint.map((vigilancePoint, index) => (
-                <VigilancePointMarker vigilancePoint={vigilancePoint} key={index} />
+                <VigilancePointMarker
+                  vigilancePoint={vigilancePoint}
+                  defaultOpened={false}
+                  key={index}
+                />
               ))}
             </div>
           ))}
