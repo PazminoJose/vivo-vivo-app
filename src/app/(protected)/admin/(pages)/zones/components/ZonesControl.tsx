@@ -11,7 +11,7 @@ import CardZone from "./CardZone";
 type ViewZoneMode = "all" | "active" | "inactive";
 
 export default function ZonesControl() {
-  const [zoneViewMode, setZoneViewMode] = useState<ViewZoneMode>("all");
+  const [zoneViewMode, setZoneViewMode] = useState<ViewZoneMode>("active");
   const [searchQuery, setSearchQuery] = useState<string>("");
   // Store
   const zones = useZoneControlStore((state) => state.zones);
