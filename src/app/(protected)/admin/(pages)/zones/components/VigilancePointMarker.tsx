@@ -23,7 +23,7 @@ interface VigilancePointMarkerProps extends AdvancedMarkerProps {
 
 export default function VigilancePointMarker({
   vigilancePoint,
-  defaultOpened = true,
+  defaultOpened = false,
   onPositionChange,
   onRemove,
   ...props
