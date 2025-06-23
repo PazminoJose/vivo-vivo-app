@@ -4,7 +4,6 @@ import { useQueryClient } from "@tanstack/react-query";
 import { useSession } from "next-auth/react";
 import dynamic from "next/dynamic";
 import { useMemo } from "react";
-import GoogleMapApiProvider from "../../../providers/GoogleMapApiProvider";
 import { useSocketIOProvider } from "../../../providers/SockerIOPtovider";
 import { Polygon } from "../../zones/components/Polygon";
 import VigilancePointMarker from "../../zones/components/VigilancePointMarker";
@@ -18,6 +17,10 @@ import ViewPastAlarmsControl from "./../components/ViewPastAlarmsControl";
 import WatchmanMarkers from "./WatchmanMarkers";
 
 const DynamicMap = dynamic(() => import("../../../components/Map"), {
+  ssr: false
+});
+
+const DynamicProvider = dynamic(() => import("../../../providers/GoogleMapApiProvider"), {
   ssr: false
 });
 
@@ -50,7 +53,7 @@ export default function IncidentsMap() {
   }, [socket, data]);
 
   return (
-    <GoogleMapApiProvider>
+    <DynamicProvider>
       <DynamicMap
         defaultCenter={defaultCenter}
         streetViewControl={false}
@@ -82,6 +85,6 @@ export default function IncidentsMap() {
             </div>
           ))}
       </DynamicMap>
-    </GoogleMapApiProvider>
+    </DynamicProvider>
   );
 }
