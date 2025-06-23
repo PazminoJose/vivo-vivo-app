@@ -28,7 +28,7 @@ export default function FormLogin() {
     if (res?.error) {
       toast.error(res.error);
     } else {
-      router.push("/admin/users");
+      router.push("/login");
       toast.success("Bienvenido");
     }
     setLoading(false);
