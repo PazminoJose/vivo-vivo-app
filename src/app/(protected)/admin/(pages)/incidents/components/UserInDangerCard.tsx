@@ -1,13 +1,15 @@
 import { IMG_URL } from "@/constants/constants";
 import { IncidentTypeData } from "@/models/incident-type";
 import { UserInDanger } from "@/models/user-in-danger.model";
-import { Autocomplete, Avatar, Button, Card, Menu } from "@mantine/core";
+import { ActionIcon, Autocomplete, Avatar, Button, Card, Menu, Tooltip } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
-import { IconInfoCircle, IconLocation } from "@tabler/icons-react";
+import { IconCheck, IconInfoCircle, IconLocation } from "@tabler/icons-react";
 import { useMap } from "@vis.gl/react-google-maps";
 import { useEffect, useState } from "react";
+import { toast } from "sonner";
 import { useGetIncidentsTypeData } from "../services/getIncidentsTypeData.service";
 import { usePatchAlarm } from "../services/patchAlarm.service";
+import { usePostMarkAlarmAsAttended } from "../services/postMarkAlarmAsAttended.service";
 import { useIncidentsStore } from "../store/incidents.store";
 
 interface UserInDangerCardProps {
@@ -18,15 +20,18 @@ export default function UserInDangerCard({ userInDanger: user }: UserInDangerCar
   const map = useMap();
   const [incidentsTypeAutocompleteValue, setIncidentsTypeAutocompleteValue] = useState<string>("");
   const [selectedIncidentType, setSelectedIncidentType] = useState<IncidentTypeData | null>(null);
-  const [openedMenu, { close: closeMenu, toggle: toggleMenu }] = useDisclosure();
+  const [openedMenu, { toggle: toggleMenu }] = useDisclosure();
   const setSelectedUserInDanger = useIncidentsStore((store) => store.setSelectedUserInDanger);
 
   const { data: incidentsTypeData } = useGetIncidentsTypeData();
   const { mutate: updateMutation, isPending } = usePatchAlarm();
+  const { mutateAsync: markAlarmAsAttended, isPending: isPendingMarkAlarmAsAttended } =
+    usePostMarkAlarmAsAttended();
 
-  const handleClickViewUserInDanger = (user: UserInDanger) => {
+  const handleClickViewUserInDanger = () => {
+    setSelectedUserInDanger(null);
     setSelectedUserInDanger(user);
-    if (map) map.moveCamera({ center: user.position, zoom: 15 });
+    if (map) map.moveCamera({ center: user.position });
   };
 
   const handleIncidentTypeChange = (value: string) => {
@@ -48,6 +53,14 @@ export default function UserInDangerCard({ userInDanger: user }: UserInDangerCar
     });
   };
 
+  const handleMarkAsAttended = () => {
+    toast.promise(markAlarmAsAttended({ userID: user.userID, alarmID: user.alarmID }), {
+      loading: "Marcando como atendida...",
+      success: "Usuario marcado como atendido",
+      error: "Error al marcar como atendido"
+    });
+  };
+
   useEffect(() => {
     if (user.incidentTypeName && incidentsTypeData) {
       const incidentType = incidentsTypeData[user.incidentTypeName];
@@ -57,64 +70,86 @@ export default function UserInDangerCard({ userInDanger: user }: UserInDangerCar
 
   return (
     <Card className="mt-2 p-2" key={user.userID}>
-      <div className="flex flex-col gap-2">
-        <div className="flex items-center gap-2">
+      <div className="text-md flex flex-col gap-2">
+        <div className="flex items-center justify-center gap-2">
           <Avatar
-            size="lg"
-            className="border-[3.5px] border-red-500"
+            size="xl"
+            className="border-[3.5px]"
+            style={{ borderColor: user.color }}
             src={`${IMG_URL}/${user.avatar}`}
           />
-          <div className="flex flex-col">
-            <p className="font-bold">
-              Nombre: <span className="font-normal">{user?.fullName}</span>.
-            </p>
-            <p className="font-bold">
-              Teléfono: <span className="font-normal">{user?.phone}</span>. .
-            </p>
-            <p className="font-bold">
-              Cédula: <span className="font-normal">{user?.dni}</span>. .
-            </p>
-            <p className="font-bold">
-              Punto de vigilancia más cercano: <span className="font-normal">{user?.closestVigilancePointName}</span>.
-            </p>
+          <div className="flex gap-1">
+            <Menu
+              position="left"
+              opened={openedMenu}
+              closeOnItemClick={false}
+              closeOnClickOutside={false}
+            >
+              <Menu.Target>
+                <Tooltip label="Ingresar información">
+                  <ActionIcon onClick={toggleMenu}>
+                    <IconInfoCircle />
+                  </ActionIcon>
+                </Tooltip>
+              </Menu.Target>
+              <Menu.Dropdown style={{ width: "25rem" }}>
+                <Menu.Item component="div">
+                  <div className="flex flex-col gap-2">
+                    <Autocomplete
+                      value={incidentsTypeAutocompleteValue}
+                      label="Tipo de incidente"
+                      placeholder="Ingrese el tipo de incidente"
+                      data={Object.keys(incidentsTypeData || {})}
+                      onChange={handleIncidentTypeChange}
+                    />
+                    <Button
+                      disabled={!incidentsTypeAutocompleteValue.trim()}
+                      fullWidth
+                      onClick={handleAddInformation}
+                      loading={isPending}
+                    >
+                      Guardar
+                    </Button>
+                  </div>
+                </Menu.Item>
+              </Menu.Dropdown>
+            </Menu>
+            <Tooltip label="Marcar como atendido">
+              <ActionIcon
+                onClick={() => {
+                  handleMarkAsAttended();
+                }}
+              >
+                <IconCheck />
+              </ActionIcon>
+            </Tooltip>
+
+            <Tooltip label="Ver ubicación del usuario en peligro">
+              <ActionIcon
+                onClick={() => {
+                  handleClickViewUserInDanger();
+                }}
+              >
+                <IconLocation />
+              </ActionIcon>
+            </Tooltip>
           </div>
         </div>
-        <Menu position="left" opened={openedMenu} closeOnItemClick={false} closeOnClickOutside={false}>
-          <Menu.Target>
-            <Button leftSection={<IconInfoCircle />} onClick={toggleMenu}>
-              Ingresar información
-            </Button>
-          </Menu.Target>
-          <Menu.Dropdown style={{ width: "25rem" }}>
-            <Menu.Item component="div">
-              <div className="flex flex-col gap-2">
-                <Autocomplete
-                  value={incidentsTypeAutocompleteValue}
-                  label="Tipo de incidente"
-                  placeholder="Ingrese el tipo de incidente"
-                  data={Object.keys(incidentsTypeData || {})}
-                  onChange={handleIncidentTypeChange}
-                />
-                <Button
-                  disabled={!incidentsTypeAutocompleteValue.trim()}
-                  fullWidth
-                  onClick={handleAddInformation}
-                  loading={isPending}
-                >
-                  Guardar
-                </Button>
-              </div>
-            </Menu.Item>
-          </Menu.Dropdown>
-        </Menu>
-        <Button
-          leftSection={<IconLocation />}
-          onClick={() => {
-            handleClickViewUserInDanger(user);
-          }}
-        >
-          Ver en el mapa
-        </Button>
+        <div className="flex flex-col px-2">
+          <p className="font-bold">
+            Nombre: <span className="font-normal">{user?.fullName}</span>.
+          </p>
+          <p className="font-bold">
+            Teléfono: <span className="font-normal">{user?.phone}</span>.
+          </p>
+          <p className="font-bold">
+            Tipo de incidente: <span className="font-normal">{user?.incidentTypeName}</span>.
+          </p>
+          <p className="font-bold">
+            Punto de vigilancia más cercano:{" "}
+            <span className="font-normal">{user?.closestVigilancePointName}</span>.
+          </p>
+        </div>
       </div>
     </Card>
   );
