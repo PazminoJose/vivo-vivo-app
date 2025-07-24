@@ -8,10 +8,12 @@ export interface UserInDanger {
   alarmID: number;
   position: { lat: number; lng: number };
   closestVigilancePointName: string;
+  color: string;
 }
 
 export interface UserInDangerByIncidentHierarchy {
   incidentTypeHierarchyID: number;
   incidentTypeHierarchyName: string;
   usersInDanger: UserInDanger[];
+  color: string;
 }
