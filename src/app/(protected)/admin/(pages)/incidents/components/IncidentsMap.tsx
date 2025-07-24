@@ -9,7 +9,8 @@ import { Polygon } from "../../zones/components/Polygon";
 import VigilancePointMarker from "../../zones/components/VigilancePointMarker";
 import { useGetZones } from "../../zones/services/getZones.service";
 import { SOCKET_SUSCRIBE_EVENTS } from "../events/socket.event";
-import { USERS_IN_DANGER_QUERY_KEY } from "../services/getUsersInDangerByIncidentTypeHierarchy.service";
+import { USERS_IN_DANGER_QUERY_KEY } from "../services/getUsersInDanger.service";
+import { USERS_IN_DANGER_GROUPED_QUERY_KEY } from "../services/getUsersInDangerByIncidentTypeHierarchy.service";
 import { WATCHMAN_LOCATION_QUERY_KEY } from "../services/getWatchmanLocation.service";
 import UserInDangerMarkers from "./../components/UserInDangerMarkers";
 import UsersInDangerControl from "./../components/UsersInDangerControl";
@@ -32,8 +33,8 @@ export default function IncidentsMap() {
 
   const defaultCenter: google.maps.LatLngLiteral = useMemo(
     () => ({
-      lat: -1.253351,
-      lng: -78.623011
+      lat: -1.268600650992315,
+      lng: -78.62425781711377
     }),
     []
   );
@@ -41,6 +42,9 @@ export default function IncidentsMap() {
   useShallowEffect(() => {
     if (!socket) return;
     socket.on(SOCKET_SUSCRIBE_EVENTS.UPDATE_USER_STATUS, () => {
+      queryClient.invalidateQueries({
+        queryKey: [USERS_IN_DANGER_GROUPED_QUERY_KEY]
+      });
       queryClient.invalidateQueries({
         queryKey: [USERS_IN_DANGER_QUERY_KEY]
       });
@@ -58,7 +62,7 @@ export default function IncidentsMap() {
         defaultCenter={defaultCenter}
         streetViewControl={false}
         zoomControl={false}
-        defaultZoom={13}
+        defaultZoom={17}
       >
         <ViewPastAlarmsControl />
         <UsersInDangerControl />
