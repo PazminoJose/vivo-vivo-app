@@ -3,7 +3,7 @@ import { IncidentTypeData } from "@/models/incident-type";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
 import { INCIDENTS_TYPE_DATA_QUERY_KEY } from "./getIncidentsTypeData.service";
-import { USERS_IN_DANGER_QUERY_KEY } from "./getUsersInDangerByIncidentTypeHierarchy.service";
+import { USERS_IN_DANGER_GROUPED_QUERY_KEY } from "./getUsersInDangerByIncidentTypeHierarchy.service";
 
 interface PatchAlarmServiceParams {
   alarmID: number;
@@ -22,7 +22,7 @@ export const usePatchAlarm = () => {
     mutationFn: patchAlarm,
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: [USERS_IN_DANGER_QUERY_KEY]
+        queryKey: [USERS_IN_DANGER_GROUPED_QUERY_KEY]
       });
       queryClient.invalidateQueries({
         queryKey: [INCIDENTS_TYPE_DATA_QUERY_KEY]
