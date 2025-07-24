@@ -15,15 +15,25 @@ interface WatchmanMarkerProps {
 }
 
 export default function WatchmanMarker({ watchmanLocation }: WatchmanMarkerProps) {
+  let activeTimeoutID: NodeJS.Timeout | null = null;
+  const socket = useSocketIOProvider();
+  const [isActive, setIsActive] = useState(true);
   const [markerPosition, setMarkerPosition] = useState<Position>(watchmanLocation.position);
   const [openedInfoWindow, { close: closeInfoWindow, open: openInfoWindow }] = useDisclosure();
   const [markerRef, marker] = useAdvancedMarkerRef();
-  const socket = useSocketIOProvider();
   // Store
   const setSelectedWatchmanLocation = useIncidentsStore((store) => store.setSelectedWatchmanLocation);
   const selectedWatchmanLocation = useIncidentsStore((store) => store.selectedWatchmanLocation);
 
   const { data: watchmanInfo } = useGetWatchmanByWatchmanUserID(watchmanLocation.watchmanUserID);
+
+  const resetInactivityTimeout = () => {
+    setIsActive(true);
+    activeTimeoutID && clearTimeout(activeTimeoutID);
+    activeTimeoutID = setTimeout(() => {
+      setIsActive(false);
+    }, 15000);
+  };
 
   const handleOnClickMarker = () => {
     setSelectedWatchmanLocation(watchmanLocation);
@@ -36,37 +46,40 @@ export default function WatchmanMarker({ watchmanLocation }: WatchmanMarkerProps
     socket.on(event, ({ position }) => {
       if (position) {
         setMarkerPosition(position);
+        resetInactivityTimeout();
       }
     });
   }, [socket]);
 
   return (
-    <>
-      <AdvancedMarker ref={markerRef} onClick={() => handleOnClickMarker()} position={markerPosition}>
-        <Avatar
-          size="md"
-          className="border-[3.5px] border-blue-500"
-          src={`${IMG_URL}/${watchmanInfo?.avatar}`}
-        />
-      </AdvancedMarker>
-      {openedInfoWindow && selectedWatchmanLocation != null && (
-        <InfoWindow anchor={marker} onCloseClick={closeInfoWindow}>
-          <Card className="bg-[url(/logo-policia.png)] bg-cover">
-            <Card.Section>
-              <h2 className="text-center text-xl font-bold">Información del vigilante</h2>
-            </Card.Section>
-            <Card.Section className="flex flex-col gap-2 p-2">
-              <Avatar
-                size="xl"
-                className="mx-auto border-[3.5px] border-blue-500"
-                src={`${IMG_URL}/${watchmanInfo?.avatar}`}
-              />
-              <p className="text-lg font-bold">Nombre: {watchmanInfo?.fullName}</p>
-              <p className="text-lg font-bold">Teléfono: {watchmanInfo?.phone}</p>
-            </Card.Section>
-          </Card>
-        </InfoWindow>
-      )}
-    </>
+    isActive && (
+      <>
+        <AdvancedMarker ref={markerRef} onClick={() => handleOnClickMarker()} position={markerPosition}>
+          <Avatar
+            size="md"
+            className="border-[3.5px] border-blue-500"
+            src={`${IMG_URL}/${watchmanInfo?.avatar}`}
+          />
+        </AdvancedMarker>
+        {openedInfoWindow && selectedWatchmanLocation != null && (
+          <InfoWindow anchor={marker} onCloseClick={closeInfoWindow}>
+            <Card className="bg-[url(/logo-policia.png)] bg-cover">
+              <Card.Section>
+                <h2 className="text-center text-xl font-bold">Información del vigilante</h2>
+              </Card.Section>
+              <Card.Section className="flex flex-col gap-2 p-2">
+                <Avatar
+                  size="xl"
+                  className="mx-auto border-[3.5px] border-blue-500"
+                  src={`${IMG_URL}/${watchmanInfo?.avatar}`}
+                />
+                <p className="text-lg font-bold">Nombre: {watchmanInfo?.fullName}</p>
+                <p className="text-lg font-bold">Teléfono: {watchmanInfo?.phone}</p>
+              </Card.Section>
+            </Card>
+          </InfoWindow>
+        )}
+      </>
+    )
   );
 }
