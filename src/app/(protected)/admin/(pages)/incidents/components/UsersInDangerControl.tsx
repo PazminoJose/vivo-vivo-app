@@ -5,9 +5,9 @@ import UsersInDangerHierarchyTabs from "./UsersInDangerHierarchyTabs";
 export default function UsersInDangerControl() {
   return (
     <MapControl position={ControlPosition.RIGHT_TOP}>
-      <Card className="mr-4 flex h-[75vh] max-h-[75vh] w-[17rem] flex-col gap-1 border border-primary-400 bg-primary-100 p-2 pr-0 shadow-lg">
+      <Card className="border-primary-400 bg-primary-100 mr-4 flex h-[75vh] max-h-[75vh] w-[17rem] flex-col gap-1 border p-2 shadow-lg">
         <h2 className="text-center text-xl font-bold">Ciudadanos en peligro</h2>
-        <div className="mt-2 block overflow-y-scroll rounded-b-lg">
+        <div className="mt-2 block h-full overflow-y-auto rounded-b-lg px-2">
           <UsersInDangerHierarchyTabs />
         </div>
       </Card>
