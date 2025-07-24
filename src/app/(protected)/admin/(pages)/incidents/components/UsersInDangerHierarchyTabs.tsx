@@ -1,4 +1,4 @@
-import { Badge, Tabs } from "@mantine/core";
+import { Badge, Tabs, Tooltip } from "@mantine/core";
 import { useEffect } from "react";
 import { useGetUsersInDangerByIncidentTypeHierarchy } from "../services/getUsersInDangerByIncidentTypeHierarchy.service";
 import { useIncidentsStore } from "../store/incidents.store";
@@ -27,17 +27,17 @@ export default function UsersInDangerHierarchyTabs() {
     <Tabs defaultValue={usersInDanger[0].incidentTypeHierarchyName}>
       <Tabs.List>
         {usersInDanger?.map((u) => (
-          <Tabs.Tab
-            key={u.incidentTypeHierarchyID}
-            value={u.incidentTypeHierarchyName}
-            rightSection={
-              <Badge color="red" size="sm" circle>
-                {u.usersInDanger.length}
-              </Badge>
-            }
-          >
-            {u.incidentTypeHierarchyName}
-          </Tabs.Tab>
+          <Tooltip label={u.incidentTypeHierarchyName} key={u.incidentTypeHierarchyID}>
+            <Tabs.Tab
+              style={{ backgroundColor: u.color }}
+              value={u.incidentTypeHierarchyName}
+              rightSection={
+                <Badge color="white" className="text-black" size="sm" circle>
+                  {u.usersInDanger.length}
+                </Badge>
+              }
+            />
+          </Tooltip>
         ))}
       </Tabs.List>
       {usersInDanger?.map((u, i) => (
