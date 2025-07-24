@@ -37,7 +37,7 @@ export default function useUserTableColumns() {
             { label: "Admin", value: "ADMIN" },
             { label: "Super Administrador", value: "SUPER_ADMIN" },
             { label: "User", value: "USER" },
-            { label: "Vigilante", value: "VIGILANTE" },
+            { label: "Vigilante", value: "WATCHMAN" },
             { label: "Médico", value: "MEDIC" }
           ]
         }
