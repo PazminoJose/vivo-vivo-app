@@ -1,36 +1,111 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+<p align="center"><h1 align="center">VIVO-VIVO-APP</h1></p>
+<p align="center">
+Community alarm system with panic button app
+</p>
+<p align="center">
+	<img src="https://img.shields.io/github/license/PazminoJose/vivo-vivo-app?style=default&logo=opensourceinitiative&logoColor=white&color=0080ff" alt="license">
+	<img src="https://img.shields.io/github/last-commit/PazminoJose/vivo-vivo-app?style=default&logo=git&logoColor=white&color=0080ff" alt="last-commit">
+	<img src="https://img.shields.io/github/languages/top/PazminoJose/vivo-vivo-app?style=default&color=0080ff" alt="repo-top-language">
+	<img src="https://img.shields.io/github/languages/count/PazminoJose/vivo-vivo-app?style=default&color=0080ff" alt="repo-language-count">
+</p>
+<p align="center"><!-- default option, no dependency badges. -->
+</p>
+<p align="center">
+	<!-- default option, no dependency badges. -->
+</p>
+<br>
 
-## Getting Started
+##  Table of Contents
 
-First, run the development server:
+- [ Overview](#-overview)
+- [ Features](#-features)
+- [ Project Structure](#-project-structure)
+  - [ Project Index](#-project-index)
+- [ Getting Started](#-getting-started)
+  - [ Prerequisites](#-prerequisites)
+  - [ Installation](#-installation)
+  - [ Usage](#-usage)
+  - [ Testing](#-testing)
+- [ Project Roadmap](#-project-roadmap)
+- [ Contributing](#-contributing)
+- [ License](#-license)
+- [ Acknowledgments](#-acknowledgments)
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+##  Project Structure
+
+```sh
+└── vivo-vivo-app/
+    ├── README.md
+    ├── next.config.js
+    ├── package-lock.json
+    ├── package.json
+    ├── postcss.config.js
+    ├── public
+    │   ├── logo-policia.png
+    │   ├── vivo-vivo-logo.png
+    │   └── vivo-vivo.svg
+    ├── src
+    │   ├── app
+    │   ├── components
+    │   ├── constants
+    │   ├── lib
+    │   ├── middleware.ts
+    │   ├── models
+    │   ├── providers
+    │   ├── theme
+    │   └── types
+    └── tsconfig.json
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+##  Getting Started
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+###  Prerequisites
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+Before getting started with vivo-vivo-app, ensure your runtime environment meets the following requirements:
 
-## Learn More
+- **Programming Language:** TypeScript
+- **Package Manager:** Npm
 
-To learn more about Next.js, take a look at the following resources:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+###  Installation
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+Install vivo-vivo-app using one of the following methods:
 
-## Deploy on Vercel
+**Build from source:**
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+1. Clone the vivo-vivo-app repository:
+```sh
+❯ git clone https://github.com/PazminoJose/vivo-vivo-app
+```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+2. Navigate to the project directory:
+```sh
+❯ cd vivo-vivo-app
+```
+
+3. Install the project dependencies:
+
+
+**Using `npm`** &nbsp; [<img align="center" src="https://img.shields.io/badge/npm-CB3837.svg?style={badge_style}&logo=npm&logoColor=white" />](https://www.npmjs.com/)
+
+```sh
+❯ npm install
+```
+
+
+
+
+###  Usage
+Run vivo-vivo-app using the following command:
+**Using `npm`** &nbsp; [<img align="center" src="https://img.shields.io/badge/npm-CB3837.svg?style={badge_style}&logo=npm&logoColor=white" />](https://www.npmjs.com/)
+
+```sh
+❯ npm start
+```
+
+<p align="left">
+   <a href="https://github.com{/PazminoJose/vivo-vivo-app/}graphs/contributors">
+      <img src="https://contrib.rocks/image?repo=PazminoJose/vivo-vivo-app">
+   </a>
+</p>
+</details>
