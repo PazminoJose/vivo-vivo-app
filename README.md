@@ -3,17 +3,10 @@
 Community alarm system with panic button app
 </p>
 <p align="center">
-	<img src="https://img.shields.io/github/license/PazminoJose/vivo-vivo-app?style=default&logo=opensourceinitiative&logoColor=white&color=0080ff" alt="license">
 	<img src="https://img.shields.io/github/last-commit/PazminoJose/vivo-vivo-app?style=default&logo=git&logoColor=white&color=0080ff" alt="last-commit">
 	<img src="https://img.shields.io/github/languages/top/PazminoJose/vivo-vivo-app?style=default&color=0080ff" alt="repo-top-language">
 	<img src="https://img.shields.io/github/languages/count/PazminoJose/vivo-vivo-app?style=default&color=0080ff" alt="repo-language-count">
 </p>
-<p align="center"><!-- default option, no dependency badges. -->
-</p>
-<p align="center">
-	<!-- default option, no dependency badges. -->
-</p>
-<br>
 
 ##  Table of Contents
 
